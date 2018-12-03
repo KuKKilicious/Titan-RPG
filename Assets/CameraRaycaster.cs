@@ -2,8 +2,10 @@
 
 public class CameraRaycaster : MonoBehaviour {
     public Layer[] layerPriorities = {
+        Layer.Walkable,
         Layer.Enemy,
-        Layer.Walkable
+        Layer.NPC
+        
     };
     
     float distanceToBackground = 100f;
