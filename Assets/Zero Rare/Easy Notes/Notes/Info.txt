@@ -1,0 +1,2 @@
+This folder contains all project notes.
+Please do not remove and add any files.
