@@ -459,7 +459,6 @@ GameObject:
   - component: {fileID: 95431701385612624}
   - component: {fileID: 54317492551112714}
   - component: {fileID: 136247513283841974}
-  - component: {fileID: 114292725599682570}
   - component: {fileID: 114916754957791748}
   - component: {fileID: 114142734313485084}
   m_Layer: 0
@@ -2499,17 +2498,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkMoveStopRadius: 0.2
---- !u!114 &114292725599682570
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1305307095897422}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 521b611700410be45810047f0a74e899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114916754957791748
 MonoBehaviour:
   m_ObjectHideFlags: 1

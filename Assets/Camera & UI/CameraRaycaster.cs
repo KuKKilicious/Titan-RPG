@@ -21,10 +21,11 @@ public class CameraRaycaster : MonoBehaviour {
         get { return m_layerHit; }
     }
 
-    void Start() // TODO Awake?
+    void Start() 
     {
         viewCamera = Camera.main;
     }
+
 
     void Update() {
         // Look for and return priority layer hit

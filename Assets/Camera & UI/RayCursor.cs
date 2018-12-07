@@ -11,7 +11,7 @@ public class RayCursor : MonoBehaviour {
 
     [SerializeField]
     Texture2D questionCursor = null;
-    [SerializeField] Vector2 cursorHotspot= new Vector2(96,96);
+    [SerializeField] Vector2 cursorHotspot= new Vector2(0,0);
     CameraRaycaster raycaster;
 	// Use this for initialization
 	void Start () {

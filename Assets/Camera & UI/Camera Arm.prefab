@@ -154,3 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13377aa98d50eb94eacbf993e6ba1c07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  walkCursor: {fileID: 2800000, guid: bb2fcc075463b2642ab109e918eb79b4, type: 3}
+  attackCursor: {fileID: 2800000, guid: 9a17fa8b0b44794488567132852ed607, type: 3}
+  questionCursor: {fileID: 2800000, guid: f831c68757d9fd14fb505cf64d908886, type: 3}
+  cursorHotspot: {x: 0, y: 0}
