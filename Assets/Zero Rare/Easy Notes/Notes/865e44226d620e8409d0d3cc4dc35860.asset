@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: -1
   newId: 865e44226d620e8409d0d3cc4dc35860
-  order: 1
+  order: 2
   note: "Dash attacks, toggleable?\r\n\r\nDodge attacks vs bigger mobs\r (with and
     without focus)\n\r\nFocus bigger mobs with Button"
   tags: 

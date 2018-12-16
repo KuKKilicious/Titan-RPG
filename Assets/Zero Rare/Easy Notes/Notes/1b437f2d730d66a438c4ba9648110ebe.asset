@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: -1
   newId: 1b437f2d730d66a438c4ba9648110ebe
-  order: 0
+  order: 1
   note: puzzling fast action combat
   tags: Marketing
   color: {r: 1, g: 0.46176243, b: 0, a: 1}

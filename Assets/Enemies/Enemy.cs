@@ -12,17 +12,4 @@ public class Enemy : MonoBehaviour {
             return currentHealthPoints / maxHealthPoints;
         }
     }
-
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-
-    
 }
