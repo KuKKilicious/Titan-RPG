@@ -2253,7 +2253,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1305307095897422}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.5, z: 0}
+  m_LocalPosition: {x: 0.995, y: 0, z: 1.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4079126666737324}
@@ -2498,6 +2498,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkMoveStopRadius: 0.2
+  meleeMoveStopRadius: 0.4
+  rangedMoveStopRadius: 5
+  dashDistance: 7
 --- !u!114 &114916754957791748
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2514,8 +2517,8 @@ MonoBehaviour:
   m_JumpPower: 6
   m_GravityMultiplier: 2
   m_RunCycleLegOffset: 0.2
-  m_MoveSpeedMultiplier: 4
-  m_AnimSpeedMultiplier: 5
+  m_MoveSpeedMultiplier: 1
+  m_AnimSpeedMultiplier: 1
   m_GroundCheckDistance: 0.3
 --- !u!136 &136247513283841974
 CapsuleCollider:
