@@ -13,27 +13,30 @@ public class RayCursor : MonoBehaviour {
     Texture2D questionCursor = null;
     [SerializeField] Vector2 cursorHotspot= new Vector2(0,0);
     CameraRaycaster raycaster;
-	// Use this for initialization
-	void Start () {
+
+    // Use this for initialization
+    void Start () {
         raycaster = GetComponent<CameraRaycaster>();
-        raycaster.onLayerChange += OnLayerChange;
+        raycaster.notifyLayerChangeObservers += OnLayerChange;
 	}
 	
 	// Update is called once per frame
-	void OnLayerChange (Layer newLayer) {
+	void OnLayerChange (int newLayer) {
+        Debug.Log("OnLayerChange: " + newLayer.ToString());
         switch (newLayer) {
-            case Layer.Enemy:
+            case 5:
+                Debug.Log("toDo: need to set UI Cursor here");
+                break;
+            case 10:
                 Cursor.SetCursor(attackCursor, cursorHotspot, CursorMode.Auto);
                 break;
-            case Layer.Walkable:
+            case 9:
                 Cursor.SetCursor(walkCursor, cursorHotspot, CursorMode.Auto);
                 break;
-            case Layer.RaycastEndStop:
+            default:
                 Cursor.SetCursor(questionCursor, cursorHotspot, CursorMode.Auto);
                 break;
-            default:
-                Debug.LogError("Cursor to show is not set for layer:" + raycaster.currentLayerHit);
-                return;
+            
         }
 	}
 }

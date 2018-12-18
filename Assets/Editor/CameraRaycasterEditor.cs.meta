@@ -1,7 +1,10 @@
 fileFormatVersion: 2
-guid: c27e7ac4e0912994f8089597733956c2
+guid: 47db5fbd62a91449cb2c9826f1095c78
+labels:
+- Ray
+timeCreated: 1488806362
+licenseType: Free
 MonoImporter:
-  externalObjects: {}
   serializedVersion: 2
   defaultReferences: []
   executionOrder: 0

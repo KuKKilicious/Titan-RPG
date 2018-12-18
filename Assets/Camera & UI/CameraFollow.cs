@@ -3,12 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour {
-    
-    Transform playerToFollow;
-    private void Start() {
-        playerToFollow = GameObject.FindGameObjectWithTag("Player").transform;
-    }
-    private void LateUpdate() {
-        transform.position = playerToFollow.position;
-    }
+
+	[SerializeField] GameObject gameCanvasPrefab = null;
+	[SerializeField] GameObject eventSystemPrefab = null;
+
+	GameObject player;
+
+	// Use this for initialization
+	void Start () {
+        player = GameObject.FindGameObjectWithTag("Player");
+		Instantiate (gameCanvasPrefab);
+		Instantiate (eventSystemPrefab);
+	}
+	
+	// Update is called once per frame
+	void LateUpdate () {
+        transform.position = player.transform.position;
+	}
 }
