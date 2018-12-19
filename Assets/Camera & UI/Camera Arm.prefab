@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 20690501366225082}
   - component: {fileID: 81971278164488328}
   - component: {fileID: 114897064790073624}
-  - component: {fileID: 114313238865731524}
+  - component: {fileID: 114046098926690596}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -38,7 +38,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4206802677968464}
-  - component: {fileID: 114639554232018498}
+  - component: {fileID: 114885143432439180}
   m_Layer: 0
   m_Name: Camera Arm
   m_TagString: Untagged
@@ -66,8 +66,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1439109281428128}
-  m_LocalRotation: {x: -0.12917958, y: 0.85936195, z: -0.4170828, w: -0.26617974}
-  m_LocalPosition: {x: 4.71, y: 11.95, z: 7.45}
+  m_LocalRotation: {x: 0.16867222, y: -0.81382036, z: 0.475164, w: 0.2889037}
+  m_LocalPosition: {x: 7.4, y: 18.3, z: 7.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4206802677968464}
@@ -120,7 +120,7 @@ AudioListener:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1439109281428128}
   m_Enabled: 1
---- !u!114 &114313238865731524
+--- !u!114 &114046098926690596
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -128,11 +128,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1439109281428128}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f851b7d5efc99cd458712c57ecaa7150, type: 3}
+  m_Script: {fileID: 11500000, guid: d02853f5d34bd8f429969ac34c466d07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   layerPriorities: 0a0000000b00000009000000
---- !u!114 &114639554232018498
+  maxRaycastDepth: 100
+--- !u!114 &114885143432439180
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -140,9 +141,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1861854328320542}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b32fc46a4b39dc6479b9d67533c7df6b, type: 3}
+  m_Script: {fileID: 11500000, guid: 1f38397a5b56d9b44b4c13df92053e12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameCanvasPrefab: {fileID: 1653876244793134, guid: 75a43cca039264395b99698681e52275,
+    type: 2}
+  eventSystemPrefab: {fileID: 1110802628024388, guid: aa7d9f10fc88b4dc98864db21f2887b8,
+    type: 2}
 --- !u!114 &114897064790073624
 MonoBehaviour:
   m_ObjectHideFlags: 1
