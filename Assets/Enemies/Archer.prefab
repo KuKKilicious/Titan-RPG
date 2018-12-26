@@ -2561,11 +2561,11 @@ MonoBehaviour:
   maxHealthPoints: 100
   aggroRadius: 2
   attackRadius: 10
-  damagePerShot: 7
+  damagePerShot: 10
   projectileToUse: {fileID: 1520325623144814, guid: 17262f251f08ffa478acf33cddc4f75b,
     type: 2}
   projectileSocket: {fileID: 1550257846628364}
-  secondsBetweenShots: 2
+  secondsBetweenShots: 0.5
 --- !u!114 &114392393868164648
 MonoBehaviour:
   m_ObjectHideFlags: 1

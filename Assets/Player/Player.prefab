@@ -626,7 +626,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1305307095897422}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -144.16, y: 47.06, z: 247.34}
+  m_LocalPosition: {x: -149.87, y: 47.06, z: 247.34}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4569219585777276}
@@ -802,7 +802,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyLayer: 10
-  maxHealthPoints: 100
+  maxHealthPoints: 1000
+  damageToDeal: 50
+  minTimeBetweenHits: 1
+  maxAttackRange: 3
   aimTransform: {fileID: 4268316117527854}
 --- !u!114 &114916754957791748
 MonoBehaviour:

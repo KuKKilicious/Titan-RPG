@@ -2585,12 +2585,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealthPoints: 20
   aggroRadius: 7
-  attackRadius: 0.7
-  damagePerShot: 1
+  attackRadius: 2
+  damagePerShot: 2
   projectileToUse: {fileID: 1520325623144814, guid: 17262f251f08ffa478acf33cddc4f75b,
     type: 2}
   projectileSocket: {fileID: 1304055112335694}
-  secondsBetweenShots: 1
+  secondsBetweenShots: 0.5
 --- !u!114 &114948001032752354
 MonoBehaviour:
   m_ObjectHideFlags: 1
