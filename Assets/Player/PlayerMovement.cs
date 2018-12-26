@@ -131,7 +131,7 @@ public class PlayerMovement : MonoBehaviour {
            Vector3 reductionVector = (destination - transform.position).normalized * shortening;
            return destination - reductionVector;
        }
-
+       */
        private void OnDrawGizmos() {
            Gizmos.color = Color.black;
            Gizmos.DrawLine(transform.position, currentDestination);
@@ -143,6 +143,6 @@ public class PlayerMovement : MonoBehaviour {
            Gizmos.DrawWireSphere(transform.position, 5f); // ranged
            Debug.Log("Gizzzzzmo");
        }
-       */
+       
 }
 
