@@ -15,4 +15,4 @@ MonoBehaviour:
     type: 2}
   gripTransform: {fileID: 4217617711921238, guid: 23966c2cda8135f448039bd9435121a9,
     type: 2}
-  attackAnimation: {fileID: 0}
+  attackAnimation: {fileID: 7400000, guid: 7617ea74d7812ab4ab1ce5cdbd8efe57, type: 3}
