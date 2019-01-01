@@ -15,6 +15,10 @@ namespace RPG.Weapons
         Transform gripTransform;
         [SerializeField]
         AnimationClip attackAnimation;
+        [SerializeField]
+        float maxAttackRange = 3f;
+
+        [SerializeField] private float minTimeBetweenHits;
 
         public GameObject WeaponPrefab {
             get {
@@ -34,8 +38,27 @@ namespace RPG.Weapons
 
         public AnimationClip AttackAnimation {
             get {
+                RemoveAnimationEvents();
                 return attackAnimation;
             }
+        }
+
+        public float MinTimeBetweenHits {
+            get {
+                return minTimeBetweenHits;
+            }
+        }
+
+        public float MaxAttackRange {
+            get {
+                return maxAttackRange;
+            }
+        }
+
+        //clear assetpack predefined animations
+        private void RemoveAnimationEvents()
+        {
+            attackAnimation.events = new AnimationEvent[0];
         }
     }
 }

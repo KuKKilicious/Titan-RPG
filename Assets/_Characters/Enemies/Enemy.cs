@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityStandardAssets.Characters.ThirdPerson;
 using RPG.Core;
 using RPG.Weapons;
 
@@ -112,7 +111,6 @@ namespace RPG.Characters
             Gizmos.color = Color.red;
 
             Gizmos.DrawWireSphere(transform.position, attackRadius); // attackRadius
-            Debug.Log("Gizzzzzmo");
         }
 
 

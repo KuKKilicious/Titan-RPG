@@ -18,13 +18,11 @@ namespace RPG.Characters
         float maxHealthPoints = 100f;
         [SerializeField]
         float damageToDeal = 10f;
-        [SerializeField]
-        float minTimeBetweenHits = 0.5f;
-        [SerializeField]
-        float maxAttackRange = 3f;
+       
         [SerializeField]
         Weapon weaponInUse;
 
+        private Animator animator;
         [SerializeField]
         private AnimatorOverrideController animatorOverrideController;
         float currentHealthPoints;
@@ -51,6 +49,7 @@ namespace RPG.Characters
         // Use this for initialization
         void Start()
         {
+            animator = GetComponent<Animator>();
             SetCurrentMaxHealth();
             RegisterForMouseClick();
             PlaceWeaponInHand();
@@ -64,7 +63,6 @@ namespace RPG.Characters
 
         private void OverrideAnimatorController()
         {
-            Animator animator = GetComponent<Animator>();
             animator.runtimeAnimatorController = animatorOverrideController;
             animatorOverrideController["DEFAULT_ATTACK"] = weaponInUse.AttackAnimation; //todo: remove string reference
         }
@@ -98,15 +96,43 @@ namespace RPG.Characters
 
                 var enemy = raycastHit.collider.gameObject;
                 currentTarget = enemy;
-                if (Vector3.Distance(transform.position, currentTarget.transform.position) <= maxAttackRange)
-                { //check enemy is in range
-                    if (Time.time - lastHitTime >= minTimeBetweenHits)
-                    {
-                        currentTarget.GetComponent<IDamageable>().TakeDamage(damageToDeal);
-                        lastHitTime = Time.time;
-                    }
+                HandleAttack();
+            }
+        }
+
+        private void HandleAttack()
+        {
+            if (TargetIsInRange(currentTarget))
+            {
+                if (Time.time - lastHitTime >= weaponInUse.MinTimeBetweenHits)
+                {
+                    PlayAttackAnimation();
+                    DealDamageToTarget();
                 }
             }
+
+            
+            
+        }
+
+        private bool TargetIsInRange(GameObject target)
+        {
+            return (Vector3.Distance(transform.position, target.transform.position) <= weaponInUse.MaxAttackRange);
+        }
+
+        private void PlayAttackAnimation()
+        { 
+           
+            animator.SetTrigger("Attack"); //make const
+
+        }
+
+        private void DealDamageToTarget()
+        {
+
+            currentTarget.GetComponent<IDamageable>().TakeDamage(damageToDeal);
+            lastHitTime = Time.time;
+
         }
 
 
