@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using RPG.CameraUI;
 namespace RPG.Characters
@@ -23,22 +21,27 @@ namespace RPG.Characters
             currentEnergy = maxEnergy;
             Debug.Log(currentEnergy);
             cameraRaycaster = Camera.main.GetComponent<CameraRaycaster>();
-            cameraRaycaster.notifyRightMouseClickObservers += CameraRaycaster_notifyRightMouseClickObservers;
+            cameraRaycaster.notifyMouseOverEnemy += CameraRaycaster_notifyMouseOverEnemy;
         }
 
-        private void CameraRaycaster_notifyRightMouseClickObservers(RaycastHit raycastHit, int layerHit)
+        private void CameraRaycaster_notifyMouseOverEnemy(Enemy enemy)
         {
-            Debug.Log(currentEnergy +"b");
-            currentEnergy = Mathf.Clamp(currentEnergy - pointsPerHit, 0f, maxEnergy);
-            Debug.Log(currentEnergy);
-            float xValue = -(currentEnergy/maxEnergy / 2f) - 0.5f;
+            if (Input.GetMouseButtonDown(1)) //TODO inRange criteria
+            {
+                UpdateEnergy();
+                UpdateEnergyBar();
+            }
+        }
+
+        private void UpdateEnergyBar()
+        {
+            float xValue = -(currentEnergy / maxEnergy / 2f) - 0.5f;
             energyBar.uvRect = new Rect(xValue, 0f, 0.5f, 1f);
         }
 
-        // Update is called once per frame
-        void Update()
+        private void UpdateEnergy()
         {
-
+            currentEnergy = Mathf.Clamp(currentEnergy - pointsPerHit, 0f, maxEnergy);
         }
     }
 }

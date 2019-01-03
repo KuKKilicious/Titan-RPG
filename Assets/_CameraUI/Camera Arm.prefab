@@ -134,6 +134,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   layerPriorities: 0a0000000b00000009000000
   maxRaycastDepth: 100
+  walkCursor: {fileID: 2800000, guid: 5232dff125d2a477abda5091702a1a15, type: 3}
+  enemyCursor: {fileID: 2800000, guid: 9b582cc5a05de4a6b828c8e72df8fc39, type: 3}
+  cursorHotspot: {x: 0, y: 0}
 --- !u!114 &114380951376777164
 MonoBehaviour:
   m_ObjectHideFlags: 1

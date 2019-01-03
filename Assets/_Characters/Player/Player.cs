@@ -13,12 +13,10 @@ namespace RPG.Characters
     public class Player : MonoBehaviour, IDamageable
     {
         [SerializeField]
-        int enemyLayer = 10;
-        [SerializeField]
         float maxHealthPoints = 100f;
         [SerializeField]
         float damageToDeal = 10f;
-       
+
         [SerializeField]
         Weapon weaponInUse;
 
@@ -26,7 +24,6 @@ namespace RPG.Characters
         [SerializeField]
         private AnimatorOverrideController animatorOverrideController;
         float currentHealthPoints;
-        GameObject currentTarget;
         float lastHitTime = 0f;
 
         CameraRaycaster cameraRaycaster;
@@ -56,6 +53,7 @@ namespace RPG.Characters
             OverrideAnimatorController();
         }
 
+
         private void SetCurrentMaxHealth()
         {
             currentHealthPoints = maxHealthPoints;
@@ -70,7 +68,15 @@ namespace RPG.Characters
         private void RegisterForMouseClick()
         {
             cameraRaycaster = FindObjectOfType<CameraRaycaster>();
-            cameraRaycaster.notifyLeftMouseClickObservers += CameraRaycaster_notifyMouseClickObservers;
+            cameraRaycaster.notifyMouseOverEnemy += CameraRaycaster_notifyMouseOverEnemy;
+        }
+
+        private void CameraRaycaster_notifyMouseOverEnemy(Enemy enemy)
+        {
+            if (Input.GetMouseButton(0))
+            {
+                HandleAttack(enemy);
+            }
         }
 
         private void PlaceWeaponInHand()
@@ -89,48 +95,36 @@ namespace RPG.Characters
             return dominantHands[0].gameObject;
         }
 
-        private void CameraRaycaster_notifyMouseClickObservers(RaycastHit raycastHit, int layerHit)
-        {
-            if (layerHit == enemyLayer)
-            {
 
-                var enemy = raycastHit.collider.gameObject;
-                currentTarget = enemy;
-                HandleAttack();
-            }
-        }
-
-        private void HandleAttack()
+        private void HandleAttack(Enemy enemy)
         {
-            if (TargetIsInRange(currentTarget))
+            if (TargetIsInRange(enemy))
             {
                 if (Time.time - lastHitTime >= weaponInUse.MinTimeBetweenHits)
                 {
                     PlayAttackAnimation();
-                    DealDamageToTarget();
+                    DealDamageToTarget(enemy);
                 }
             }
 
-            
-            
         }
 
-        private bool TargetIsInRange(GameObject target)
+        private bool TargetIsInRange(Enemy target)
         {
             return (Vector3.Distance(transform.position, target.transform.position) <= weaponInUse.MaxAttackRange);
         }
 
         private void PlayAttackAnimation()
-        { 
-           
+        {
+
             animator.SetTrigger("Attack"); //make const
 
         }
 
-        private void DealDamageToTarget()
+        private void DealDamageToTarget(Enemy enemy)
         {
 
-            currentTarget.GetComponent<IDamageable>().TakeDamage(damageToDeal);
+            enemy.GetComponent<IDamageable>().TakeDamage(damageToDeal);
             lastHitTime = Time.time;
 
         }

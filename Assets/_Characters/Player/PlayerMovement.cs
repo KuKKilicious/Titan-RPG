@@ -19,14 +19,11 @@ namespace RPG.Characters
         AICharacterControl aiCharControl = null;
         GameObject walkTarget = null;
 
-
-        [SerializeField] const int enemyLayerNumber = 10;
-        [SerializeField] const int walkableLayerNumber = 9;
-
         private void Start()
         {
             cameraRaycaster = Camera.main.GetComponent<CameraRaycaster>();
-            cameraRaycaster.notifyLeftMouseClickObservers += CameraRaycaster_notifyMouseClickObservers;
+            cameraRaycaster.notifyMouseOverEnemy += CameraRaycaster_notifyMouseOverEnemy; ;
+            cameraRaycaster.notifyMouseOverWalkableObservers += CameraRaycaster_notifyMouseOverWalkableObservers;
             thirdPersonCharacter = GetComponent<ThirdPersonCharacter>();
             aiCharControl = GetComponent<AICharacterControl>();
             currentDestination = transform.position;
@@ -34,26 +31,28 @@ namespace RPG.Characters
             walkTarget = new GameObject("Player walk Target");
         }
 
-        private void CameraRaycaster_notifyMouseClickObservers(RaycastHit raycastHit, int layerHit)
+        private void CameraRaycaster_notifyMouseOverEnemy(Enemy enemy)
         {
-            switch (layerHit)
+            if (Input.GetMouseButton(0))
             {
-                case enemyLayerNumber:
-                    //navigate to enemy
-                    GameObject enemy = raycastHit.collider.gameObject;
-                    aiCharControl.target = enemy.transform;
-                    break;
-                case walkableLayerNumber:
-                    //navigate to point on the ground
-                    walkTarget.transform.position = raycastHit.point;
-                    aiCharControl.target = walkTarget.transform;
-                    break;
-                default:
-                    //Log no hit
-                    Debug.Log("no processable layer hit");
-                    return;
+                aiCharControl.target = enemy.transform;
+            }
+            else if (Input.GetMouseButtonDown(1))
+            {
+
             }
         }
+
+        //subscriber method
+        private void CameraRaycaster_notifyMouseOverWalkableObservers(Vector3 destination)
+        {
+            if (Input.GetMouseButton(0))
+            {
+                walkTarget.transform.position = destination;
+                aiCharControl.target = walkTarget.transform;
+            }
+        }
+
 
         // Fixed update is called in sync with physics
         private void FixedUpdate()
