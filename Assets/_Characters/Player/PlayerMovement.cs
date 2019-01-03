@@ -26,7 +26,7 @@ namespace RPG.Characters
         private void Start()
         {
             cameraRaycaster = Camera.main.GetComponent<CameraRaycaster>();
-            cameraRaycaster.notifyMouseClickObservers += CameraRaycaster_notifyMouseClickObservers;
+            cameraRaycaster.notifyLeftMouseClickObservers += CameraRaycaster_notifyMouseClickObservers;
             thirdPersonCharacter = GetComponent<ThirdPersonCharacter>();
             aiCharControl = GetComponent<AICharacterControl>();
             currentDestination = transform.position;

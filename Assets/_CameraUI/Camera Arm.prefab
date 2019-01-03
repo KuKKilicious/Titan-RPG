@@ -39,6 +39,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4206802677968464}
   - component: {fileID: 114885143432439180}
+  - component: {fileID: 114380951376777164}
   m_Layer: 0
   m_Name: Camera Arm
   m_TagString: Untagged
@@ -133,6 +134,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   layerPriorities: 0a0000000b00000009000000
   maxRaycastDepth: 100
+--- !u!114 &114380951376777164
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1861854328320542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a3fe7a5b817eaa4cb7e3449934838a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotateDegree: 3
 --- !u!114 &114885143432439180
 MonoBehaviour:
   m_ObjectHideFlags: 1

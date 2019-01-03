@@ -70,7 +70,7 @@ namespace RPG.Characters
         private void RegisterForMouseClick()
         {
             cameraRaycaster = FindObjectOfType<CameraRaycaster>();
-            cameraRaycaster.notifyMouseClickObservers += CameraRaycaster_notifyMouseClickObservers;
+            cameraRaycaster.notifyLeftMouseClickObservers += CameraRaycaster_notifyMouseClickObservers;
         }
 
         private void PlaceWeaponInHand()
