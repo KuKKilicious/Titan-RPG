@@ -33,8 +33,7 @@ namespace RPG.Characters
 
         //TODO remove Serialize Field of specialAbillity
         [SerializeField]
-        SpecialAbilityConfig ability1;
-
+        SpecialAbilityConfig[] abilities;
         CameraRaycaster cameraRaycaster;
 
         float currentHealthPoints;
@@ -61,7 +60,7 @@ namespace RPG.Characters
             RegisterForMouseClick();
             PlaceWeaponInHand();
             OverrideAnimatorController();
-            ability1.AddComponent(gameObject);
+            abilities[0].AttachComponentTo(gameObject);
         }
 
 
@@ -91,17 +90,17 @@ namespace RPG.Characters
             }
             else if (Input.GetMouseButtonDown(1)) //TODO inRange criteria
             {
-                AttemptSpecialAbility1(enemy);
-                energy.UpdateEnergy(ability1.energyCost);
+                AttemptSpecialAbility(0,enemy);
             }
         }
 
-        private void AttemptSpecialAbility1(Enemy enemy)
+        private void AttemptSpecialAbility(int abilityIndex,Enemy enemy)
         {
-            if (energy.isEnergyAvailable(ability1.energyCost))
+            if (energy.isEnergyAvailable(abilities[abilityIndex].energyCost))
             { 
-                energy.UpdateEnergy(ability1.energyCost);
+                energy.UpdateEnergy(abilities[abilityIndex].energyCost);
                 //Use ability
+                abilities[0].Use();
             }
         }
 

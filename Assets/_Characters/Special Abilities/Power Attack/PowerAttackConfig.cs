@@ -11,12 +11,12 @@ namespace RPG.Characters
         [SerializeField]
         float extraDamage = 0;
 
-        public override ISpecialAbility AddComponent(GameObject gameObjectToAttachTo)
+        public override void AttachComponentTo(GameObject gameObjectToAttachTo)
         {
             var behaviourComponent = gameObjectToAttachTo.AddComponent<PowerAttackBehaviour>();
 
             behaviourComponent.SetConfig = this;
-            return behaviourComponent;
+            behaviour = behaviourComponent;
         }
     }
 }

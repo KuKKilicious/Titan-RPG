@@ -16,6 +16,7 @@ namespace RPG.Characters
 
         public void Use()
         {
+            Debug.Log("power attack use");
         }
 
     }
