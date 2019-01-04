@@ -3780,11 +3780,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114046098926690596, guid: 97d2f40a427b56f46aec134059fdd7d2,
-        type: 2}
-      propertyPath: walkCursor
-      value: 
-      objectReference: {fileID: 2800000, guid: 5232dff125d2a477abda5091702a1a15, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 97d2f40a427b56f46aec134059fdd7d2, type: 2}
   m_IsPrefabAsset: 0
@@ -5855,25 +5850,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1074522126}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1078540548 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1305307095897422, guid: ee2f44dabb7986c44b693bae1b959950,
-    type: 2}
-  m_PrefabInternal: {fileID: 1651279675}
---- !u!114 &1078540549
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1078540548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c25bf4ba5a291c4a817a918f17f8106, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  energyBar: {fileID: 1122265360}
-  maxEnergy: 100
-  pointsPerHit: 10
 --- !u!1001 &1081564604
 Prefab:
   m_ObjectHideFlags: 0
@@ -9523,12 +9499,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 114805184346887900, guid: ee2f44dabb7986c44b693bae1b959950,
+    - target: {fileID: 114763984565784320, guid: ee2f44dabb7986c44b693bae1b959950,
         type: 2}
-      propertyPath: weaponInUse
+      propertyPath: energyBar
       value: 
-      objectReference: {fileID: 11400000, guid: f4a5684b78fe2804b9d7a084718d4f39,
-        type: 2}
+      objectReference: {fileID: 1122265360}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee2f44dabb7986c44b693bae1b959950, type: 2}
   m_IsPrefabAsset: 0

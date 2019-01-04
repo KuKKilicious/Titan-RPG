@@ -12,25 +12,34 @@ namespace RPG.Characters
 
     public class Player : MonoBehaviour, IDamageable
     {
+
+        //stats
         [SerializeField]
         float maxHealthPoints = 100f;
         [SerializeField]
         float damageToDeal = 10f;
 
+        //weapon
         [SerializeField]
         Weapon weaponInUse;
 
+        //animator
         private Animator animator;
         [SerializeField]
         private AnimatorOverrideController animatorOverrideController;
-        float currentHealthPoints;
-        float lastHitTime = 0f;
+        //position to aim at
+        [SerializeField]
+        Transform aimTransform;
+
+        //TODO remove Serialize Field of specialAbillity
+        [SerializeField]
+        SpecialAbilityConfig ability1;
 
         CameraRaycaster cameraRaycaster;
 
-
-        [SerializeField]
-        Transform aimTransform;
+        float currentHealthPoints;
+        float lastHitTime = 0f;
+        Energy energy =null;
         public float healthAsPercentage {
             get {
                 return currentHealthPoints / maxHealthPoints;
@@ -46,11 +55,13 @@ namespace RPG.Characters
         // Use this for initialization
         void Start()
         {
+            energy = GetComponent<Energy>();
             animator = GetComponent<Animator>();
             SetCurrentMaxHealth();
             RegisterForMouseClick();
             PlaceWeaponInHand();
             OverrideAnimatorController();
+            ability1.AddComponent(gameObject);
         }
 
 
@@ -69,6 +80,7 @@ namespace RPG.Characters
         {
             cameraRaycaster = FindObjectOfType<CameraRaycaster>();
             cameraRaycaster.notifyMouseOverEnemy += CameraRaycaster_notifyMouseOverEnemy;
+            
         }
 
         private void CameraRaycaster_notifyMouseOverEnemy(Enemy enemy)
@@ -76,6 +88,20 @@ namespace RPG.Characters
             if (Input.GetMouseButton(0))
             {
                 HandleAttack(enemy);
+            }
+            else if (Input.GetMouseButtonDown(1)) //TODO inRange criteria
+            {
+                AttemptSpecialAbility1(enemy);
+                energy.UpdateEnergy(ability1.energyCost);
+            }
+        }
+
+        private void AttemptSpecialAbility1(Enemy enemy)
+        {
+            if (energy.isEnergyAvailable(ability1.energyCost))
+            { 
+                energy.UpdateEnergy(ability1.energyCost);
+                //Use ability
             }
         }
 
