@@ -8,8 +8,6 @@ using RPG.Core;
 using RPG.Weapons;
 namespace RPG.Characters
 {
-
-
     public class Player : MonoBehaviour, IDamageable
     {
 
@@ -17,7 +15,7 @@ namespace RPG.Characters
         [SerializeField]
         float maxHealthPoints = 100f;
         [SerializeField]
-        float damageToDeal = 10f;
+        float baseDamage = 10f;
 
         //weapon
         [SerializeField]
@@ -33,12 +31,12 @@ namespace RPG.Characters
 
         //TODO remove Serialize Field of specialAbillity
         [SerializeField]
-        SpecialAbilityConfig[] abilities;
+        SpecialAbility[] abilities;
         CameraRaycaster cameraRaycaster;
 
         float currentHealthPoints;
         float lastHitTime = 0f;
-        Energy energy =null;
+        Energy energy = null;
         public float healthAsPercentage {
             get {
                 return currentHealthPoints / maxHealthPoints;
@@ -79,7 +77,7 @@ namespace RPG.Characters
         {
             cameraRaycaster = FindObjectOfType<CameraRaycaster>();
             cameraRaycaster.notifyMouseOverEnemy += CameraRaycaster_notifyMouseOverEnemy;
-            
+
         }
 
         private void CameraRaycaster_notifyMouseOverEnemy(Enemy enemy)
@@ -90,17 +88,19 @@ namespace RPG.Characters
             }
             else if (Input.GetMouseButtonDown(1)) //TODO inRange criteria
             {
-                AttemptSpecialAbility(0,enemy);
+                AttemptSpecialAbility(0, enemy);
             }
         }
 
-        private void AttemptSpecialAbility(int abilityIndex,Enemy enemy)
+        private void AttemptSpecialAbility(int abilityIndex, Enemy enemy)
         {
-            if (energy.isEnergyAvailable(abilities[abilityIndex].energyCost))
-            { 
-                energy.UpdateEnergy(abilities[abilityIndex].energyCost);
+            float energyCost = abilities[abilityIndex].EnergyCost;
+            if (energy.isEnergyAvailable(energyCost))
+            {
+                energy.UpdateEnergy(energyCost);
                 //Use ability
-                abilities[0].Use();
+                var abilityParams = new AbilityUseParams(enemy, baseDamage);
+                abilities[0].Use(abilityParams);
             }
         }
 
@@ -149,16 +149,8 @@ namespace RPG.Characters
         private void DealDamageToTarget(Enemy enemy)
         {
 
-            enemy.GetComponent<IDamageable>().TakeDamage(damageToDeal);
+            enemy.GetComponent<IDamageable>().TakeDamage(baseDamage);
             lastHitTime = Time.time;
-
-        }
-
-
-
-        // Update is called once per frame
-        void Update()
-        {
 
         }
 

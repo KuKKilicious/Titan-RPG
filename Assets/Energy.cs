@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 namespace RPG.Characters
 {
@@ -8,25 +9,38 @@ namespace RPG.Characters
         [SerializeField]
         RawImage energyBar;
         [SerializeField]
-        private readonly float maxEnergy = 100f;
+        private float maxEnergy = 100f;
         [SerializeField]
-        private readonly float pointsPerHit = 10f;
+        private float regenPointsPerSecond = 1;
         float currentEnergy;
-
         // Use this for initialization
         void Start()
         {
+            
             currentEnergy = maxEnergy;
             Debug.Log(currentEnergy);
         }
+
+        private void Update()
+        {
+            RegenEnergy();
+        }
+
+        private void RegenEnergy()
+        {
+                UpdateEnergyAmount(-(regenPointsPerSecond*Time.deltaTime));
+                UpdateEnergyBar();
+            
+        }
+
         public bool isEnergyAvailable(float amount)
         {
             return (currentEnergy >= amount);
         }
         public void UpdateEnergy(float amount)
         {
-                UpdateEnergyAmount(amount);
-                UpdateEnergyBar();
+            UpdateEnergyAmount(amount);
+            UpdateEnergyBar();
         }
 
         private void UpdateEnergyAmount(float amount)

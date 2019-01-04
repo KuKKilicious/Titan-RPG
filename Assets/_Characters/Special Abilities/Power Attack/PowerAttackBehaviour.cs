@@ -14,10 +14,12 @@ namespace RPG.Characters
             }
         }
 
-        public void Use()
-        {
-            Debug.Log("power attack use");
-        }
+       
 
+        public void Use(AbilityUseParams useParams)
+        {
+            float damageToDeal = useParams.baseDamage + config.ExtraDamage;
+            useParams.target.TakeDamage(damageToDeal);
+        }
     }
 }
