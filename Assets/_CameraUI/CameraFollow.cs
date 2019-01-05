@@ -18,7 +18,7 @@ namespace RPG.CameraUI
         void Start()
         {
             player = GameObject.FindGameObjectWithTag("Player");
-            Instantiate(gameCanvasPrefab);
+            //Instantiate(gameCanvasPrefab); //TODO use it instead
             Instantiate(eventSystemPrefab);
         }
 

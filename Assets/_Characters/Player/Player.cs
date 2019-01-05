@@ -1,16 +1,27 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.SceneManagement;
 using RPG.CameraUI;
 using RPG.Core;
 using RPG.Weapons;
+
 namespace RPG.Characters
 {
     public class Player : MonoBehaviour, IDamageable
     {
+        //trigger consts
+        const string ATTACK_TRIGGER = "Attack";
+        const string DEATH_TRIGGER = "Death";
 
+        [Header("SFX")]
+        //SFX
+        [SerializeField]
+        private AudioClip[] deathSFX;
+        [SerializeField]
+        private AudioClip[] getHitSFX;
+
+        [Header("Stats")]
         //stats
         [SerializeField]
         float maxHealthPoints = 100f;
@@ -36,7 +47,11 @@ namespace RPG.Characters
 
         float currentHealthPoints;
         float lastHitTime = 0f;
+
+        private bool isAlive = true;
+        private float timeAtLastHitPlay = 0f;
         Energy energy = null;
+        AudioSource audioSource;
         public float healthAsPercentage {
             get {
                 return currentHealthPoints / maxHealthPoints;
@@ -54,6 +69,7 @@ namespace RPG.Characters
         {
             energy = GetComponent<Energy>();
             animator = GetComponent<Animator>();
+            audioSource = GetComponent<AudioSource>();
             SetCurrentMaxHealth();
             RegisterForMouseClick();
             PlaceWeaponInHand();
@@ -142,7 +158,7 @@ namespace RPG.Characters
         private void PlayAttackAnimation()
         {
 
-            animator.SetTrigger("Attack"); //make const
+            animator.SetTrigger(ATTACK_TRIGGER); //make const
 
         }
 
@@ -156,7 +172,68 @@ namespace RPG.Characters
 
         void IDamageable.TakeDamage(float damage)
         {
+            if (isAlive)
+            {
+                if (currentHealthPoints - damage <= 0) //Player dies
+                {
+                    ReduceHealth(damage);
+                    isAlive = false;
+                    //Kill Player
+                    StartCoroutine(KillPlayer());
+                }
+                else
+                {
+                    ReduceHealth(damage);
+                    if (timeAtLastHitPlay < Time.time - Random.Range(0.4f, 0.7f))//TODO switch magic number to var
+                    {
+                        PlayRandomSFX(getHitSFX);
+                        timeAtLastHitPlay = Time.time;
+                    }
+                }
+            }
+        }
+
+        private void PlayRandomSFX(AudioClip[] sfx)
+        {
+            
+            int randomIndex = Random.Range(0, sfx.Length);
+            audioSource.clip= sfx[randomIndex];
+            audioSource.Play();
+        }
+
+        private IEnumerator KillPlayer()
+        {
+            float timeScaleSloMo = 0.6f;
+            int waitTime = 3;
+            //play death sound
+            PlayRandomSFX(deathSFX);
+            //trigger death animation
+            animator.SetTrigger(DEATH_TRIGGER);
+            //restrict Movement
+            RestrictMovement();
+            //Slow time
+            Time.timeScale = timeScaleSloMo;
+            //wait a bit
+            yield return new WaitForSecondsRealtime(waitTime);
+            //reload scene
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            Time.timeScale = 1f;
+        }
+
+        private void RestrictMovement()
+        {
+            PlayerMovement movement = GetComponent<PlayerMovement>();
+            if (movement)
+            {
+                movement.StopMovement();
+            }
+        }
+
+        private void ReduceHealth(float damage)
+        {
             currentHealthPoints = Mathf.Clamp(currentHealthPoints - damage, 0f, maxHealthPoints);
+
+
         }
     }
 }

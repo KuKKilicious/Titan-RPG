@@ -18,7 +18,7 @@ namespace RPG.Characters
         bool isInDirectMode = false; //whether WASD/Gamepad is used
         AICharacterControl aiCharControl = null;
         GameObject walkTarget = null;
-
+        private bool canMove = true;
         private void Start()
         {
             cameraRaycaster = Camera.main.GetComponent<CameraRaycaster>();
@@ -33,6 +33,7 @@ namespace RPG.Characters
 
         private void CameraRaycaster_notifyMouseOverEnemy(Enemy enemy)
         {
+            if (!canMove) { return; }
             if (Input.GetMouseButton(0))
             {
                 aiCharControl.target = enemy.transform;
@@ -46,6 +47,7 @@ namespace RPG.Characters
         //subscriber method
         private void CameraRaycaster_notifyMouseOverWalkableObservers(Vector3 destination)
         {
+            if (!canMove) { return; }
             if (Input.GetMouseButton(0))
             {
                 walkTarget.transform.position = destination;
@@ -85,57 +87,7 @@ namespace RPG.Characters
             thirdPersonCharacter.Move(move, false, false);
         }
 
-        /*
-           private void ProcessMouseMovement() {
-               if (Input.GetMouseButton(0)) { // left click
-                   aiCharControl.target
-    
-               //setCurrentDestination(meleeMoveStopRadius);
-    
-               }
-               if (Input.GetMouseButton(1)) { //right click
-                 //  setCurrentDestination(rangedMoveStopRadius);
-    
-              }
-               //walkToDestination();
-           }
-    
-           private void setCurrentDestination(float enemyStopRadius) {
-               clickPoint = cameraRaycaster.hit.point;
-               switch (cameraRaycaster.currentLayerHit) {
-                   case Layer.Walkable:
-                       if (Vector3.Distance(transform.position, clickPoint) < walkMoveStopRadius) {
-                           break;
-                       }
-                       currentDestination = ShortDestination(clickPoint, walkMoveStopRadius);
-                       break;
-                   case Layer.Enemy:
-                       if (Vector3.Distance(transform.position, clickPoint) < enemyStopRadius) {
-                           break;
-                       }
-                       currentDestination = ShortDestination(clickPoint, enemyStopRadius);
-                       break;
-                   default:
-                       Debug.Log("no processable layer hit");
-                       return;
-               }
-           }
-    
-           private void walkToDestination() {
-               var playerToClickPoint = currentDestination - transform.position;
-               if (playerToClickPoint.magnitude >= 0) {
-                   thirdPersonCharacter.Move(playerToClickPoint, false, false);
-               } else {
-                   thirdPersonCharacter.Move(Vector3.zero, false, false);
-               }
-           }
-    
-           private Vector3 ShortDestination(Vector3 destination, float shortening) {
-    
-               Vector3 reductionVector = (destination - transform.position).normalized * shortening;
-               return destination - reductionVector;
-           }
-           */
+       
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.black;
@@ -147,6 +99,11 @@ namespace RPG.Characters
 
             Gizmos.DrawWireSphere(transform.position, 5f); // ranged
             Debug.Log("Gizzzzzmo");
+        }
+
+        public void StopMovement()
+        {
+            canMove = false;
         }
 
     }

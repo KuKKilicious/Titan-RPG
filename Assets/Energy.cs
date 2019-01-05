@@ -7,7 +7,7 @@ namespace RPG.Characters
     public class Energy : MonoBehaviour
     {
         [SerializeField]
-        RawImage energyBar;
+        Image energyBar;
         [SerializeField]
         private float maxEnergy = 100f;
         [SerializeField]
@@ -16,9 +16,7 @@ namespace RPG.Characters
         // Use this for initialization
         void Start()
         {
-            
             currentEnergy = maxEnergy;
-            Debug.Log(currentEnergy);
         }
 
         private void Update()
@@ -30,7 +28,6 @@ namespace RPG.Characters
         {
                 UpdateEnergyAmount(-(regenPointsPerSecond*Time.deltaTime));
                 UpdateEnergyBar();
-            
         }
 
         public bool isEnergyAvailable(float amount)
@@ -49,8 +46,7 @@ namespace RPG.Characters
         }
         private void UpdateEnergyBar()
         {
-            float xValue = -(currentEnergy / maxEnergy / 2f) - 0.5f;
-            energyBar.uvRect = new Rect(xValue, 0f, 0.5f, 1f);
+            energyBar.fillAmount = currentEnergy / maxEnergy;
         }
 
     }

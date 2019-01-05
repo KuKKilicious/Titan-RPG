@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 114142734313485084}
   - component: {fileID: 114805184346887900}
   - component: {fileID: 114763984565784320}
+  - component: {fileID: 82541410384330488}
   m_Layer: 12
   m_Name: Player
   m_TagString: Player
@@ -674,6 +675,101 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!82 &82541410384330488
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1305307095897422}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 0.512
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!95 &95431701385612624
 Animator:
   serializedVersion: 3
@@ -737,9 +833,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c25bf4ba5a291c4a817a918f17f8106, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  energyBar: {fileID: 0}
+  energyBar: {fileID: 114987603453965670, guid: 75a43cca039264395b99698681e52275,
+    type: 2}
   maxEnergy: 100
-  regenPointsPerSecond: 1
+  regenPointsPerSecond: 2
 --- !u!114 &114805184346887900
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -751,6 +848,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0fc84815ead8074c9fcfde929ded308, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathSFX:
+  - {fileID: 8300000, guid: adb4cf45862b91945a1bc4ef2ac84ff2, type: 3}
+  - {fileID: 8300000, guid: 680ed7d77a7e6ca478b3d5dceb57c665, type: 3}
+  getHitSFX:
+  - {fileID: 8300000, guid: e0e4ee6f3e5ab804f900b4eb9438bb16, type: 3}
+  - {fileID: 8300000, guid: d03cb854194d8b948a9eff6065ea9728, type: 3}
+  - {fileID: 8300000, guid: e32ceafbe67c43646b3474d50a888d81, type: 3}
+  - {fileID: 8300000, guid: b1fc381d5d876f046b26c9df42b7e3fe, type: 3}
+  - {fileID: 8300000, guid: 829dfe614e7bcf847ae519942fcb25dd, type: 3}
+  - {fileID: 8300000, guid: 541dbe29cb83c7946956d52732c7701f, type: 3}
   maxHealthPoints: 1000
   baseDamage: 10
   weaponInUse: {fileID: 11400000, guid: f4a5684b78fe2804b9d7a084718d4f39, type: 2}
@@ -758,7 +865,7 @@ MonoBehaviour:
     type: 2}
   aimTransform: {fileID: 4268316117527854}
   abilities:
-  - {fileID: 11400000, guid: bfed98f0e4327f14f866d8a88622c5ca, type: 2}
+  - {fileID: 11400000, guid: e1a8d288d818bd8448412c99304ce4ee, type: 2}
 --- !u!114 &114916754957791748
 MonoBehaviour:
   m_ObjectHideFlags: 1

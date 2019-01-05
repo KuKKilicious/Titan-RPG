@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using RPG.Core;
@@ -18,6 +17,7 @@ namespace RPG.Characters
 
 
         [SerializeField] float secondsBetweenShots = 2f;
+        [SerializeField] float variationInSec= 0.2f;
         bool isAttacking = false;
         AICharacterControl aiCharControl;
         Player player;
@@ -37,12 +37,17 @@ namespace RPG.Characters
 
         private void CheckForPlayerInRange()
         {
+            if (player.healthAsPercentage <= Mathf.Epsilon)
+            {
+                StopAllCoroutines();
+                Destroy(this);
+            }
             float distanceToPlayer = Vector3.Distance(player.AimTransform.position, transform.position);
             if ((distanceToPlayer < attackRadius) && !isAttacking)
             {
                 isAttacking = true;
                 aiCharControl.target = transform; //stop moving
-                StartCoroutine(SpawnProjectile(secondsBetweenShots));
+                StartCoroutine(SpawnProjectile());
             }
 
             if ((distanceToPlayer >= attackRadius))
@@ -61,13 +66,13 @@ namespace RPG.Characters
         }
 
         //TODO seperate out Character firing logic
-        private IEnumerator SpawnProjectile(float waitTime)
+        private IEnumerator SpawnProjectile()
         {
 
 
             while (isAttacking)
             {
-
+                float variation = GetRandomVariation();
 
                 var projectile = Instantiate(projectileToUse, projectileSocket.transform.position, Quaternion.identity);
                 projectile.transform.rotation =
@@ -82,8 +87,16 @@ namespace RPG.Characters
                     Vector3.Normalize(player.AimTransform.position - projectileSocket.transform.position);
                 float projectileSpeed = projectileComponent.ProjectileSpeed;
                 projectile.GetComponent<Rigidbody>().velocity = unitVectorToPlayer * projectileSpeed;
-                yield return new WaitForSeconds(waitTime);
+                yield return new WaitForSeconds(variation);
             }
+        }
+
+        private float GetRandomVariation()
+        {
+            float variationMin = secondsBetweenShots + variationInSec;
+            float variationMax = secondsBetweenShots - variationInSec;
+            float variation = Random.Range(variationMin, variationMax);
+            return variation;
         }
 
         void IDamageable.TakeDamage(float damage)
@@ -96,8 +109,7 @@ namespace RPG.Characters
 
         }
 
-        public float healthAsPercentage
-        {
+        public float healthAsPercentage {
             get { return currentHealthPoints / maxHealthPoints; }
         }
 
