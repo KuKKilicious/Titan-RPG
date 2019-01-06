@@ -99,7 +99,7 @@ namespace RPG.Characters
             return variation;
         }
 
-        void IDamageable.TakeDamage(float damage)
+        void IDamageable.SubstractHealth(float damage)
         {
             currentHealthPoints = Mathf.Clamp(currentHealthPoints - damage, 0f, maxHealthPoints);
             if (currentHealthPoints <= 0)

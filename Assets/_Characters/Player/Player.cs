@@ -165,12 +165,12 @@ namespace RPG.Characters
         private void DealDamageToTarget(Enemy enemy)
         {
 
-            enemy.GetComponent<IDamageable>().TakeDamage(baseDamage);
+            enemy.GetComponent<IDamageable>().SubstractHealth(baseDamage);
             lastHitTime = Time.time;
 
         }
 
-        void IDamageable.TakeDamage(float damage)
+        void IDamageable.SubstractHealth(float damage)
         {
             if (isAlive)
             {

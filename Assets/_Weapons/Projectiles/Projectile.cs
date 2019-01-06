@@ -54,7 +54,7 @@ public class Projectile : MonoBehaviour {
         IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
         if (damageable != null)
         {
-            damageable.TakeDamage(damageValue);
+            damageable.SubstractHealth(damageValue);
             Destroy(gameObject, DESTROY_DELAY);
         }
     }
