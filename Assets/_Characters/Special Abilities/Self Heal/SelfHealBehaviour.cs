@@ -44,6 +44,7 @@ namespace RPG.Characters
         {
             //Instantiate a particle system prefab attached to player
             effectParticleSystem = Instantiate(config.ParticlePrefab, target.transform.position, Quaternion.identity);
+            effectParticleSystem.transform.parent = transform;
             //Get the particle System
             ParticleSystem particles = effectParticleSystem.GetComponent<ParticleSystem>();
             //Play particle system

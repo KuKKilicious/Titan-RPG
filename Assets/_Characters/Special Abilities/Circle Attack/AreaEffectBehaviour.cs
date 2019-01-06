@@ -36,18 +36,15 @@ namespace RPG.Characters
 
         private void DealSphericalDamageAroundTarget(AbilityUseParams useParams)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             //play Particles
-            RaycastHit hitInfo;//TODO change way to generally determine target
-            Physics.Raycast(ray, out hitInfo, 100f);//TODO switch magic number
-            PlayParticleEffect(hitInfo.collider.gameObject);
-            RaycastHit[] hits = Physics.SphereCastAll(ray, config.Radius);
+            PlayParticleEffect(useParams.target.GetGameObject());
+            Collider[] hits = Physics.OverlapSphere(useParams.target.GetGameObject().transform.position,config.Radius);
 
             float damageToDeal = useParams.baseDamage + config.DamageToEachTarget;//move into loop, if considering enemy based adjustment
-            foreach (RaycastHit hit in hits)
+            foreach (Collider hit in hits)
             {
-                var damageable = hit.collider.gameObject.GetComponent<IDamageable>();
-                if (damageable != null && hit.collider.gameObject != gameObject)
+                var damageable = hit.gameObject.GetComponent<IDamageable>();
+                if (damageable != null && hit.gameObject != gameObject)
                 {
                     damageable.SubstractHealth(damageToDeal);
                    

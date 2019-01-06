@@ -125,6 +125,9 @@ namespace RPG.Characters
             Gizmos.DrawWireSphere(transform.position, attackRadius); // attackRadius
         }
 
-
+        public GameObject GetGameObject()
+        {
+            return gameObject;
+        }
     }
 }

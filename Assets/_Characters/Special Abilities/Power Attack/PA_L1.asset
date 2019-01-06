@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5da94d61f7d3a9b40ae2a21e3ca08a4f, type: 3}
-  m_Name: CircleAttack L1
+  m_Script: {fileID: 11500000, guid: f192c92f96a1cbf45893b05b140a242c, type: 3}
+  m_Name: PA_L1
   m_EditorClassIdentifier: 
-  energyCost: 25
-  particlePrefab: {fileID: 1018161031997718, guid: 436bf5f569a78844584946abb828e7e8,
-    type: 3}
-  radius: 5
+  energyCost: 22
+  particlePrefab: {fileID: 0}
+  targetsSelf: 0
+  extraDamage: 0

@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 682dc18f50fa0984a9878b4aa2ca6634, type: 3}
-  m_Name: Self Heal L1
+  m_Name: SH_L1
   m_EditorClassIdentifier: 
   energyCost: 40
   particlePrefab: {fileID: 1600857509714475444, guid: a509106880009c543b6c2c8333e3aed3,
     type: 3}
+  targetsSelf: 0
   healAmount: 100
   sfx:
   - {fileID: 8300000, guid: 809ef49da9180b74088019c196964438, type: 3}

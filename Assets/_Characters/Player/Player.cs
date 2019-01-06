@@ -42,7 +42,7 @@ namespace RPG.Characters
 
         //TODO remove Serialize Field of specialAbillity
         [SerializeField]
-        SpecialAbility[] abilities;
+        AbilityConfig[] abilities;
         CameraRaycaster cameraRaycaster;
 
         float currentHealthPoints;
@@ -51,7 +51,10 @@ namespace RPG.Characters
         private bool isAlive = true;
         private float timeAtLastHitPlay = 0f;
         Energy energy = null;
-        AudioSource audioSource;
+        AudioSource audioSource = null;
+        Enemy enemy = null;
+
+        #region Getter
         public float healthAsPercentage {
             get {
                 return currentHealthPoints / maxHealthPoints;
@@ -63,20 +66,44 @@ namespace RPG.Characters
                 return aimTransform;
             }
         }
+        #endregion
 
         // Use this for initialization
         void Start()
         {
-            energy = GetComponent<Energy>();
-            animator = GetComponent<Animator>();
-            audioSource = GetComponent<AudioSource>();
+            GetComponents();
             SetCurrentMaxHealth();
             RegisterForMouseClick();
             PlaceWeaponInHand();
             OverrideAnimatorController();
-            abilities[0].AttachComponentTo(gameObject);
+            AttachInitialAbbilities();
+
         }
 
+
+
+        #region Initialize Methods
+
+        private void GetComponents()
+        {
+            energy = GetComponent<Energy>();
+            animator = GetComponent<Animator>();
+            audioSource = GetComponent<AudioSource>();
+        }
+        private void AttachInitialAbbilities()
+        {
+            for (int i = 0; i < abilities.Length; i++)
+            {
+                abilities[i].AttachComponentTo(gameObject);
+            }
+        }
+        private void PlaceWeaponInHand()
+        {
+            GameObject dominantHand = RequestDominantHand();
+            var weapon = Instantiate(weaponInUse.WeaponPrefab, transform.position, Quaternion.identity, dominantHand.transform);
+            weapon.transform.localPosition = weaponInUse.GripTransform.localPosition;
+            weapon.transform.localRotation = weaponInUse.GripTransform.localRotation;
+        }
 
         private void SetCurrentMaxHealth()
         {
@@ -88,45 +115,57 @@ namespace RPG.Characters
             animator.runtimeAnimatorController = animatorOverrideController;
             animatorOverrideController["DEFAULT_ATTACK"] = weaponInUse.AttackAnimation; //todo: remove string reference
         }
-
         private void RegisterForMouseClick()
         {
             cameraRaycaster = FindObjectOfType<CameraRaycaster>();
             cameraRaycaster.notifyMouseOverEnemy += CameraRaycaster_notifyMouseOverEnemy;
 
         }
+        #endregion
 
-        private void CameraRaycaster_notifyMouseOverEnemy(Enemy enemy)
+        private void Update()
         {
+            if (isAlive)
+            {
+                ScanForAbilityKeyDown();
+            }
+        }
+
+        private void ScanForAbilityKeyDown()
+        {
+            for (int keyIndex = 1; keyIndex < abilities.Length; keyIndex++)
+            if (Input.GetKeyDown(keyIndex.ToString()))
+            {
+                AttemptSpecialAbility(abilities[keyIndex]);
+            }
+        }
+
+        private void CameraRaycaster_notifyMouseOverEnemy(Enemy newEnemy)
+        {
+            enemy = newEnemy;
             if (Input.GetMouseButton(0))
             {
                 HandleAttack(enemy);
             }
             else if (Input.GetMouseButtonDown(1)) //TODO inRange criteria
             {
-                AttemptSpecialAbility(0, enemy);
+                AttemptSpecialAbility(abilities[0]);
             }
         }
 
-        private void AttemptSpecialAbility(int abilityIndex, Enemy enemy)
+        private void AttemptSpecialAbility(AbilityConfig ability)
         {
-            float energyCost = abilities[abilityIndex].EnergyCost;
+            float energyCost = ability.EnergyCost;
             if (energy.isEnergyAvailable(energyCost))
             {
+                //check in range
                 energy.UpdateEnergy(energyCost);
                 //Use ability
                 var abilityParams = new AbilityUseParams(enemy, baseDamage);
-                abilities[0].Use(abilityParams);
+                ability.Use(abilityParams);
             }
         }
 
-        private void PlaceWeaponInHand()
-        {
-            GameObject dominantHand = RequestDominantHand();
-            var weapon = Instantiate(weaponInUse.WeaponPrefab, transform.position, Quaternion.identity, dominantHand.transform);
-            weapon.transform.localPosition = weaponInUse.GripTransform.localPosition;
-            weapon.transform.localRotation = weaponInUse.GripTransform.localRotation;
-        }
 
         private GameObject RequestDominantHand()
         {
@@ -195,9 +234,9 @@ namespace RPG.Characters
 
         private void PlayRandomSFX(AudioClip[] sfx)
         {
-            
+
             int randomIndex = Random.Range(0, sfx.Length);
-            audioSource.clip= sfx[randomIndex];
+            audioSource.clip = sfx[randomIndex];
             audioSource.Play();
         }
 
@@ -234,6 +273,11 @@ namespace RPG.Characters
             currentHealthPoints = Mathf.Clamp(currentHealthPoints - damage, 0f, maxHealthPoints);
 
 
+        }
+
+        public GameObject GetGameObject()
+        {
+            return gameObject;
         }
     }
 }
