@@ -24,7 +24,7 @@ namespace RPG.Characters
         private void PlayParticleEffect(GameObject target)
         {
             //Instantiate a particle system prefab attached to player
-            effectParticleSystem = Instantiate(config.ParticlePrefab, target.transform.position, Quaternion.identity);
+            effectParticleSystem = Instantiate(config.ParticlePrefab, target.transform.position, config.ParticlePrefab.transform.rotation);
             //Get the particle System
             ParticleSystem particles = effectParticleSystem.GetComponent<ParticleSystem>();
             //Play particle system

@@ -16,44 +16,38 @@ namespace RPG.Characters
 
         [Header("SFX")]
         //SFX
-        [SerializeField]
-        private AudioClip[] deathSFX;
-        [SerializeField]
-        private AudioClip[] getHitSFX;
+        [SerializeField] private AudioClip[] deathSFX;
+        [SerializeField] private AudioClip[] getHitSFX;
 
         [Header("Stats")]
         //stats
-        [SerializeField]
-        float maxHealthPoints = 100f;
-        [SerializeField]
-        float baseDamage = 10f;
-
+        [SerializeField] float maxHealthPoints = 100f;
+        [SerializeField] float baseDamage = 10f;
+        [SerializeField] ParticleSystem criticalParticles = null;
         //weapon
-        [SerializeField]
-        Weapon weaponInUse;
+        [SerializeField] Weapon weaponInUse;
+        [SerializeField] private AnimatorOverrideController animatorOverrideController;
 
-        //animator
-        private Animator animator;
-        [SerializeField]
-        private AnimatorOverrideController animatorOverrideController;
         //position to aim at
-        [SerializeField]
-        Transform aimTransform;
+        [SerializeField] Transform aimTransform;
 
         //TODO remove Serialize Field of specialAbillity
-        [SerializeField]
-        AbilityConfig[] abilities;
-        CameraRaycaster cameraRaycaster;
+        [SerializeField] AbilityConfig[] abilities;
+        [Header("Criticals")]
+        [Range(.1f, 1f)] [SerializeField] float criticalHitChance = 0.1f;
+        [SerializeField] float criticalHitMultiplier = 1.25f;
 
         float currentHealthPoints;
         float lastHitTime = 0f;
+        private float timeAtLastHitPlay = 0f;
 
         private bool isAlive = true;
-        private float timeAtLastHitPlay = 0f;
-        Energy energy = null;
-        AudioSource audioSource = null;
-        Enemy enemy = null;
-
+        private CameraRaycaster cameraRaycaster;
+        private Animator animator = null;
+        private Energy energy = null;
+        private AudioSource audioSource = null;
+        private Enemy enemy = null;
+        
         #region Getter
         public float healthAsPercentage {
             get {
@@ -134,10 +128,10 @@ namespace RPG.Characters
         private void ScanForAbilityKeyDown()
         {
             for (int keyIndex = 1; keyIndex < abilities.Length; keyIndex++)
-            if (Input.GetKeyDown(keyIndex.ToString()))
-            {
-                AttemptSpecialAbility(abilities[keyIndex]);
-            }
+                if (Input.GetKeyDown(keyIndex.ToString()))
+                {
+                    AttemptSpecialAbility(abilities[keyIndex]);
+                }
         }
 
         private void CameraRaycaster_notifyMouseOverEnemy(Enemy newEnemy)
@@ -203,10 +197,22 @@ namespace RPG.Characters
 
         private void DealDamageToTarget(Enemy enemy)
         {
-
-            enemy.GetComponent<IDamageable>().SubstractHealth(baseDamage);
+            float damage = CalculateDamage();
+            enemy.GetComponent<IDamageable>().SubstractHealth(damage);
             lastHitTime = Time.time;
 
+        }
+
+        private float CalculateDamage()
+        {
+            float damage = baseDamage +weaponInUse.AdditionalDamage;
+            //critical hit
+            if(Random.value <= criticalHitChance)
+            {
+                damage *= criticalHitMultiplier;
+                criticalParticles.Play();
+            }
+            return damage;
         }
 
         void IDamageable.SubstractHealth(float damage)

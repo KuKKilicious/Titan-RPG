@@ -9591,6 +9591,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1305307095897422, guid: ee2f44dabb7986c44b693bae1b959950, type: 3}
+      propertyPath: m_Name
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 4777310550375320, guid: ee2f44dabb7986c44b693bae1b959950, type: 3}
       propertyPath: m_LocalPosition.x
       value: -150.47
@@ -9623,23 +9627,23 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 4777310550375320, guid: ee2f44dabb7986c44b693bae1b959950, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777310550375320, guid: ee2f44dabb7986c44b693bae1b959950, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777310550375320, guid: ee2f44dabb7986c44b693bae1b959950, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 114763984565784320, guid: ee2f44dabb7986c44b693bae1b959950,
         type: 3}
       propertyPath: energyBar
       value: 
       objectReference: {fileID: 1075311357}
-    - target: {fileID: 114805184346887900, guid: ee2f44dabb7986c44b693bae1b959950,
-        type: 3}
-      propertyPath: abilities.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: e1a8d288d818bd8448412c99304ce4ee,
-        type: 2}
-    - target: {fileID: 114805184346887900, guid: ee2f44dabb7986c44b693bae1b959950,
-        type: 3}
-      propertyPath: abilities.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: 6b68f78b725658c4792ecd41c12ae6d9,
-        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee2f44dabb7986c44b693bae1b959950, type: 3}
 --- !u!4 &1653120985 stripped
