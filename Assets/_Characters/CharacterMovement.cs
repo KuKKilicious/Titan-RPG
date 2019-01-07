@@ -17,9 +17,9 @@ namespace RPG.Characters
         [SerializeField] float moveSpeedMultiplier = 1f;
         [SerializeField] float movingTurnSpeed = 360;
         [SerializeField] float stationaryTurnSpeed = 180;
+        [SerializeField] float animatorSpeed = 1f;
 
         Rigidbody my_Rigidbody;
-        GameObject walkTarget = null;
         NavMeshAgent agent;
         Animator animator;
 
@@ -32,7 +32,6 @@ namespace RPG.Characters
 
         private void Start()
         {
-            walkTarget = new GameObject("Player walk Target");
 
             SetupComponents();
         }
@@ -62,7 +61,7 @@ namespace RPG.Characters
         private void SetupRigidBody()
         {
             my_Rigidbody = GetComponent<Rigidbody>();
-            my_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+            my_Rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
         }
 
         private void SetupNavMeshAgent()
@@ -100,7 +99,6 @@ namespace RPG.Characters
             if (!canMove) { return; }
             if (Input.GetMouseButton(0))
             {
-                walkTarget.transform.position = destination;
                 agent.SetDestination(destination);
             }
         }
@@ -153,6 +151,7 @@ namespace RPG.Characters
         {
             animator.SetFloat("Forward", forwardAmount, 0.1f, Time.deltaTime);
             animator.SetFloat("Turn", turnAmount, 0.1f, Time.deltaTime);
+            animator.speed = animatorSpeed;
         }
 
 
