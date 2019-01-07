@@ -7,7 +7,6 @@ namespace RPG.Characters
     public class SelfHealBehaviour :AbilityBehaviour
     {
         
-   
         public override void Use(AbilityUseParams abilityParams)
         {
             IDamageable damageable = GetComponent<IDamageable>();

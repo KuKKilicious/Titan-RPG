@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using RPG.Core;
 
-namespace RPG.Weapons
+namespace RPG.Characters
 {
     
 

@@ -4,7 +4,6 @@ using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 using RPG.CameraUI;
 using RPG.Core;
-using RPG.Weapons;
 
 namespace RPG.Characters
 {
@@ -13,6 +12,7 @@ namespace RPG.Characters
         //trigger consts
         const string ATTACK_TRIGGER = "Attack";
         const string DEATH_TRIGGER = "Death";
+        const string DEFAULT_ATTACK = "DEFAULT_ATTACK";
 
         [Header("SFX")]
         //SFX
@@ -25,11 +25,13 @@ namespace RPG.Characters
         [SerializeField] float baseDamage = 10f;
         [SerializeField] ParticleSystem criticalParticles = null;
         //weapon
-        [SerializeField] Weapon weaponInUse;
+        [SerializeField] Weapon weaponConfigInUse;
         [SerializeField] private AnimatorOverrideController animatorOverrideController;
 
         //position to aim at
         [SerializeField] Transform aimTransform;
+
+       
 
         //TODO remove Serialize Field of specialAbillity
         [SerializeField] AbilityConfig[] abilities;
@@ -47,7 +49,7 @@ namespace RPG.Characters
         private Energy energy = null;
         private AudioSource audioSource = null;
         private Enemy enemy = null;
-        
+        private GameObject weaponObject;
         #region Getter
         public float healthAsPercentage {
             get {
@@ -68,8 +70,8 @@ namespace RPG.Characters
             GetComponents();
             SetCurrentMaxHealth();
             RegisterForMouseClick();
-            PlaceWeaponInHand();
-            OverrideAnimatorController();
+            PutWeaponInHand(weaponConfigInUse);
+            SetAttackAnimation();
             AttachInitialAbbilities();
 
         }
@@ -91,23 +93,17 @@ namespace RPG.Characters
                 abilities[i].AttachComponentTo(gameObject);
             }
         }
-        private void PlaceWeaponInHand()
-        {
-            GameObject dominantHand = RequestDominantHand();
-            var weapon = Instantiate(weaponInUse.WeaponPrefab, transform.position, Quaternion.identity, dominantHand.transform);
-            weapon.transform.localPosition = weaponInUse.GripTransform.localPosition;
-            weapon.transform.localRotation = weaponInUse.GripTransform.localRotation;
-        }
+
 
         private void SetCurrentMaxHealth()
         {
             currentHealthPoints = maxHealthPoints;
         }
 
-        private void OverrideAnimatorController()
+        private void SetAttackAnimation()
         {
             animator.runtimeAnimatorController = animatorOverrideController;
-            animatorOverrideController["DEFAULT_ATTACK"] = weaponInUse.AttackAnimation; //todo: remove string reference
+            animatorOverrideController[DEFAULT_ATTACK] = weaponConfigInUse.AttackAnimation; 
         }
         private void RegisterForMouseClick()
         {
@@ -174,8 +170,9 @@ namespace RPG.Characters
         {
             if (TargetIsInRange(enemy))
             {
-                if (Time.time - lastHitTime >= weaponInUse.MinTimeBetweenHits)
+                if (Time.time - lastHitTime >= weaponConfigInUse.MinTimeBetweenHits)
                 {
+                    SetAttackAnimation();
                     PlayAttackAnimation();
                     DealDamageToTarget(enemy);
                 }
@@ -185,7 +182,7 @@ namespace RPG.Characters
 
         private bool TargetIsInRange(Enemy target)
         {
-            return (Vector3.Distance(transform.position, target.transform.position) <= weaponInUse.MaxAttackRange);
+            return (Vector3.Distance(transform.position, target.transform.position) <= weaponConfigInUse.MaxAttackRange);
         }
 
         private void PlayAttackAnimation()
@@ -205,7 +202,7 @@ namespace RPG.Characters
 
         private float CalculateDamage()
         {
-            float damage = baseDamage +weaponInUse.AdditionalDamage;
+            float damage = baseDamage +weaponConfigInUse.AdditionalDamage;
             //critical hit
             if(Random.value <= criticalHitChance)
             {
@@ -281,6 +278,16 @@ namespace RPG.Characters
 
         }
 
+       
+        internal void PutWeaponInHand(Weapon weaponConfig)
+        {
+            weaponConfigInUse = weaponConfig;
+            GameObject dominantHand = RequestDominantHand();
+            Destroy(weaponObject); //empty hand
+            weaponObject = Instantiate(weaponConfigInUse.WeaponPrefab, transform.position, Quaternion.identity, dominantHand.transform);
+            weaponObject.transform.localPosition = weaponConfigInUse.GripTransform.localPosition;
+            weaponObject.transform.localRotation = weaponConfigInUse.GripTransform.localRotation;
+        }
         public GameObject GetGameObject()
         {
             return gameObject;

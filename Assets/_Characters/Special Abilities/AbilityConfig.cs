@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using RPG.Core;
 
 namespace RPG.Characters
@@ -29,6 +27,8 @@ namespace RPG.Characters
         [SerializeField]
         private AudioClip[] sfx = new AudioClip[0];
 
+
+        #region Getter
         public AudioClip GetRandomSfx()
         {
             int randomIndex = Random.Range(0, sfx.Length);
@@ -56,11 +56,20 @@ namespace RPG.Characters
                 return targetsSelf;
             }
         }
+        #endregion
 
-        abstract public void AttachComponentTo(GameObject gameObjectToAttachTo);
+        public abstract AbilityBehaviour GetBehaviourComponent(GameObject gameObjectToAttachTo);
+        
         public void Use(AbilityUseParams abilityParams)
         {
             behaviour.Use(abilityParams);
+        }
+
+        internal void AttachComponentTo(GameObject gameObject)
+        {
+            var behaviourComponent = GetBehaviourComponent(gameObject);
+            behaviourComponent.SetConfig = this;
+            behaviour = behaviourComponent;
         }
     }
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RPG.Weapons
+namespace RPG.Characters
 {
 
 

@@ -23,7 +23,7 @@ namespace RPG.Characters
 
         protected void PlayParticleEffect(GameObject target)
         {
-            //Instantiate a particle system prefab attached to player
+            //Instantiate a particle system prefab attached to gameObject
             particleObject =
                 Instantiate(config.ParticlePrefab, target.transform.position, config.ParticlePrefab.transform.rotation);
             particleObject.transform.parent = transform;

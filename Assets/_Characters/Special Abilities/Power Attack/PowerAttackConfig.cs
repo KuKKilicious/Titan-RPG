@@ -17,12 +17,10 @@ namespace RPG.Characters
             }
         }
 
-        public override void AttachComponentTo(GameObject gameObjectToAttachTo)
+        public override AbilityBehaviour GetBehaviourComponent(GameObject gameObjectToAttachTo)
         {
-            var behaviourComponent = gameObjectToAttachTo.AddComponent<PowerAttackBehaviour>();
+            return gameObjectToAttachTo.AddComponent<PowerAttackBehaviour>();
 
-            behaviourComponent.SetConfig = this;
-            behaviour = behaviourComponent;
         }
     }
 }
