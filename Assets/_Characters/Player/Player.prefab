@@ -786,9 +786,7 @@ GameObject:
   - component: {fileID: 95431701385612624}
   - component: {fileID: 54317492551112714}
   - component: {fileID: 136247513283841974}
-  - component: {fileID: 114403354229866364}
   - component: {fileID: 195135358353894460}
-  - component: {fileID: 114916754957791748}
   - component: {fileID: 114142734313485084}
   - component: {fileID: 114805184346887900}
   - component: {fileID: 114763984565784320}
@@ -866,19 +864,6 @@ CapsuleCollider:
   m_Height: 1.9010048
   m_Direction: 1
   m_Center: {x: 0, y: 0.9505024, z: 0}
---- !u!114 &114403354229866364
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1305307095897422}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c5335f0882fe4d478883cc8c58ce906, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
 --- !u!195 &195135358353894460
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -901,26 +886,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &114916754957791748
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1305307095897422}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce7a80d520cacc042b5fe14f373d8173, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MovingTurnSpeed: 1600
-  m_StationaryTurnSpeed: 800
-  m_JumpPower: 6
-  m_GravityMultiplier: 2
-  m_RunCycleLegOffset: 0.2
-  m_MoveSpeedMultiplier: 1
-  m_AnimSpeedMultiplier: 1
-  m_GroundCheckDistance: 0.3
 --- !u!114 &114142734313485084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -933,6 +898,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3488cfbbffa49741812e986d968d159, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stoppingDistance: 1
+  moveSpeedMultiplier: 1
+  movingTurnSpeed: 1600
+  stationaryTurnSpeed: 800
 --- !u!114 &114805184346887900
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -9800,8 +9800,7 @@ PrefabInstance:
       propertyPath: energyBar
       value: 
       objectReference: {fileID: 1075311357}
-    m_RemovedComponents:
-    - {fileID: 114403354229866364, guid: ee2f44dabb7986c44b693bae1b959950, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee2f44dabb7986c44b693bae1b959950, type: 3}
 --- !u!4 &1653120985 stripped
 Transform:
