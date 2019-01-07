@@ -4,22 +4,14 @@ using UnityEngine;
 namespace RPG.Characters
 {
 
-    public class PowerAttackBehaviour : MonoBehaviour, ISpecialAbility
+    public class PowerAttackBehaviour : AbilityBehaviour
     {
-        PowerAttackConfig config;
 
-        public PowerAttackConfig SetConfig {
-            set {
-                config = value;
-            }
-        }
-
-       
-
-        public void Use(AbilityUseParams useParams)
+        public override void Use(AbilityUseParams useParams)
         {
-            float damageToDeal = useParams.baseDamage + config.ExtraDamage;
+            float damageToDeal = useParams.baseDamage + (config as PowerAttackConfig).ExtraDamage;
             useParams.target.SubstractHealth(damageToDeal);
+            PlayAbilitySound();
         }
     }
 }

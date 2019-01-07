@@ -1,51 +1,54 @@
 using UnityEngine;
-
-public class AudioTrigger : MonoBehaviour
+namespace RPG.Core
 {
-    [SerializeField] AudioClip clip;
-    [SerializeField] int layerFilter = 0;
-    [SerializeField] float triggerRadius = 5f;
-    [SerializeField] bool isOneTimeOnly = true;
 
-    [SerializeField] bool hasPlayed = false;
-    AudioSource audioSource;
-
-    void Start()
+    public class AudioTrigger : MonoBehaviour
     {
-        audioSource = gameObject.AddComponent<AudioSource>();
-        audioSource.playOnAwake = false;
-        audioSource.clip = clip;
+        [SerializeField] AudioClip clip;
+        [SerializeField] int layerFilter = 0;
+        [SerializeField] float triggerRadius = 5f;
+        [SerializeField] bool isOneTimeOnly = true;
 
-        SphereCollider sphereCollider = gameObject.AddComponent<SphereCollider>();
-        sphereCollider.isTrigger = true;
-        sphereCollider.radius = triggerRadius;
-        gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
-    }
+        [SerializeField] bool hasPlayed = false;
+        AudioSource audioSource;
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.layer == layerFilter)
+        void Start()
         {
-            RequestPlayAudioClip();
-        }
-    }
+            audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.playOnAwake = false;
+            audioSource.clip = clip;
 
-    void RequestPlayAudioClip()
-    {
-        if (isOneTimeOnly && hasPlayed)
-        {
-            return;
+            SphereCollider sphereCollider = gameObject.AddComponent<SphereCollider>();
+            sphereCollider.isTrigger = true;
+            sphereCollider.radius = triggerRadius;
+            gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
         }
-        else if (audioSource.isPlaying == false)
-        {
-            audioSource.Play();
-            hasPlayed = true;
-        }
-    }
 
-    void OnDrawGizmos()
-    {
-        Gizmos.color = new Color(0, 255f, 0, .5f);
-        Gizmos.DrawWireSphere(transform.position, triggerRadius);
+        void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.layer == layerFilter)
+            {
+                RequestPlayAudioClip();
+            }
+        }
+
+        void RequestPlayAudioClip()
+        {
+            if (isOneTimeOnly && hasPlayed)
+            {
+                return;
+            }
+            else if (audioSource.isPlaying == false)
+            {
+                audioSource.Play();
+                hasPlayed = true;
+            }
+        }
+
+        void OnDrawGizmos()
+        {
+            Gizmos.color = new Color(0, 255f, 0, .5f);
+            Gizmos.DrawWireSphere(transform.position, triggerRadius);
+        }
     }
 }

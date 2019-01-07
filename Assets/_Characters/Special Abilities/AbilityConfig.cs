@@ -5,27 +5,39 @@ using RPG.Core;
 
 namespace RPG.Characters
 {
-  public struct AbilityUseParams
+    public struct AbilityUseParams
     {
         public IDamageable target;
         public float baseDamage;
-        public AbilityUseParams(IDamageable target,float baseDamage)
+        public AbilityUseParams(IDamageable target, float baseDamage)
         {
             this.target = target;
             this.baseDamage = baseDamage;
-        }
+        } 
     }
 
     public abstract class AbilityConfig : ScriptableObject
     {
         [Header("Special Ability General")]
         [SerializeField]
-         float energyCost = 10f;
+        float energyCost = 10f;
         [SerializeField]
-        GameObject particlePrefab;
+        GameObject particlePrefab = null;
         [SerializeField]
         bool targetsSelf = false;
-        protected ISpecialAbility behaviour;
+        protected AbilityBehaviour behaviour;
+        [SerializeField]
+        private AudioClip[] sfx = new AudioClip[0];
+
+        public AudioClip GetRandomSfx()
+        {
+            int randomIndex = Random.Range(0, sfx.Length);
+            if (sfx.Length > 0)
+            {
+                return sfx[randomIndex];
+            }
+            return null;
+        }
 
         public float EnergyCost {
             get {
@@ -46,14 +58,11 @@ namespace RPG.Characters
         }
 
         abstract public void AttachComponentTo(GameObject gameObjectToAttachTo);
-        public void Use(AbilityUseParams abilityParams) {
+        public void Use(AbilityUseParams abilityParams)
+        {
             behaviour.Use(abilityParams);
         }
     }
-    public interface ISpecialAbility
-    {
-        void Use(AbilityUseParams abilityParams);
 
-    }
 }
 

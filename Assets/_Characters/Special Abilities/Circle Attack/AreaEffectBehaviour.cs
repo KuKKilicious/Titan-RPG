@@ -7,40 +7,23 @@ using System;
 namespace RPG.Characters
 {
 
-    public class AreaEffectBehaviour : MonoBehaviour, ISpecialAbility
+    public class AreaEffectBehaviour : AbilityBehaviour
     {
-        AreaEffectConfig config;
         GameObject effectParticleSystem;
-        public AreaEffectConfig SetConfig {
-            set {
-                config = value;
-            }
-        }
-        public void Use(AbilityUseParams useParams)
+
+        public override void Use(AbilityUseParams useParams)
         {
             DealSphericalDamageAroundTarget(useParams);
-            
-        }
-        private void PlayParticleEffect(GameObject target)
-        {
-            //Instantiate a particle system prefab attached to player
-            effectParticleSystem = Instantiate(config.ParticlePrefab, target.transform.position, config.ParticlePrefab.transform.rotation);
-            //Get the particle System
-            ParticleSystem particles = effectParticleSystem.GetComponent<ParticleSystem>();
-            //Play particle system
-            particles.Play();
-            //Destory particle system after finished  playing
-            float destroyAfter = particles.main.startLifetime.constantMax + particles.main.duration;
-            Destroy(effectParticleSystem, destroyAfter);
+            PlayAbilitySound();
         }
 
         private void DealSphericalDamageAroundTarget(AbilityUseParams useParams)
         {
             //play Particles
             PlayParticleEffect(useParams.target.GetGameObject());
-            Collider[] hits = Physics.OverlapSphere(useParams.target.GetGameObject().transform.position,config.Radius);
+            Collider[] hits = Physics.OverlapSphere(useParams.target.GetGameObject().transform.position, (config as AreaEffectConfig).Radius);
 
-            float damageToDeal = useParams.baseDamage + config.DamageToEachTarget;//move into loop, if considering enemy based adjustment
+            float damageToDeal = useParams.baseDamage + (config as AreaEffectConfig).DamageToEachTarget;//move into loop, if considering enemy based adjustment
             foreach (Collider hit in hits)
             {
                 var damageable = hit.gameObject.GetComponent<IDamageable>();

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 namespace RPG.Characters
 {
 
@@ -10,20 +8,13 @@ namespace RPG.Characters
         [Header("Self Heal Specific")]
         [SerializeField]
         float healAmount;
-        [SerializeField]
-        AudioClip[] sfx;
+
 
         public float HealAmount {
             get {
                 return healAmount;
             }
 
-        }
-
-        public AudioClip[] Sfx {
-            get {
-                return sfx;
-            }
         }
 
         public override void AttachComponentTo(GameObject gameObjectToAttachTo)
