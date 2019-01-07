@@ -264,7 +264,7 @@ namespace RPG.Characters
 
         private void RestrictMovement()
         {
-            PlayerMovement movement = GetComponent<PlayerMovement>();
+            CharacterMovement movement = GetComponent<CharacterMovement>();
             if (movement)
             {
                 movement.StopMovement();
@@ -274,10 +274,7 @@ namespace RPG.Characters
         private void ReduceHealth(float damage)
         {
             currentHealthPoints = Mathf.Clamp(currentHealthPoints - damage, 0f, maxHealthPoints);
-
-
         }
-
        
         internal void PutWeaponInHand(Weapon weaponConfig)
         {

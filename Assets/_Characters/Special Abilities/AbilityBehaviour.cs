@@ -32,7 +32,6 @@ namespace RPG.Characters
             //Play particle system
             particles.Play();
             //Destory particle system after finished  playing
-            float destroyAfter = particles.main.startLifetime.constantMax + particles.main.duration;
             StartCoroutine(DestroyParticleWhenFinished(particleObject));
         }
         IEnumerator DestroyParticleWhenFinished(GameObject particleObject)
@@ -49,8 +48,7 @@ namespace RPG.Characters
             AudioClip abilitySound = config.GetRandomSfx();
             if (abilitySound)
             {
-            var audioSource = GetComponent<AudioSource>();
-            audioSource.PlayOneShot(abilitySound);
+                audioSource.PlayOneShot(abilitySound);
             }
         }
     }

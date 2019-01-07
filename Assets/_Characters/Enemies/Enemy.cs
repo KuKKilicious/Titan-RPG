@@ -18,14 +18,12 @@ namespace RPG.Characters
         [SerializeField] float secondsBetweenShots = 2f;
         [SerializeField] float variationInSec= 0.2f;
         bool isAttacking = false;
-        AICharacterControl aiCharControl;
         Player player;
         float currentHealthPoints;
 
         private void Start()
         {
             currentHealthPoints = maxHealthPoints;
-            aiCharControl = GetComponent<AICharacterControl>();
             player = FindObjectOfType<Player>();
         }
 
@@ -45,7 +43,7 @@ namespace RPG.Characters
             if ((distanceToPlayer < attackRadius) && !isAttacking)
             {
                 isAttacking = true;
-                aiCharControl.target = transform; //stop moving
+               // aiCharControl.target = transform; //stop moving
                 StartCoroutine(SpawnProjectile());
             }
 
@@ -56,11 +54,11 @@ namespace RPG.Characters
 
             if (distanceToPlayer < aggroRadius && !isAttacking)
             {
-                aiCharControl.target = player.transform;
+               // aiCharControl.target = player.transform;
             }
             else
             {
-                aiCharControl.target = transform;
+               // aiCharControl.target = transform;
             }
         }
 

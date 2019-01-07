@@ -22,7 +22,7 @@ namespace RPG.Characters
             }
             var weapon = weaponConfig.WeaponPrefab;
             weapon.transform.position = Vector3.zero;
-            var weaponInst = Instantiate(weapon, gameObject.transform);
+            Instantiate(weapon, gameObject.transform);
 
         }
 
