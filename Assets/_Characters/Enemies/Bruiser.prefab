@@ -635,9 +635,9 @@ GameObject:
   - component: {fileID: 95687842577310314}
   - component: {fileID: 54805052622185502}
   - component: {fileID: 136656338540873138}
-  - component: {fileID: 114829413944266940}
   - component: {fileID: 195130475555750444}
   - component: {fileID: 114987527817088650}
+  - component: {fileID: 7587840882504809139}
   m_Layer: 10
   m_Name: Bruiser
   m_TagString: Untagged
@@ -714,26 +714,6 @@ CapsuleCollider:
   m_Height: 1.6
   m_Direction: 1
   m_Center: {x: 0, y: 0.8, z: 0}
---- !u!114 &114829413944266940
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350606544456152}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce7a80d520cacc042b5fe14f373d8173, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MovingTurnSpeed: 360
-  m_StationaryTurnSpeed: 180
-  m_JumpPower: 6
-  m_GravityMultiplier: 2
-  m_RunCycleLegOffset: 0.2
-  m_MoveSpeedMultiplier: 1.5
-  m_AnimSpeedMultiplier: 1
-  m_GroundCheckDistance: 0.3
 --- !u!195 &195130475555750444
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -768,7 +748,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a47feb78b1a13640ae73fc680230778, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealthPoints: 250
   aggroRadius: 6.5
   attackRadius: 3.13
   damagePerShot: 80
@@ -777,6 +756,23 @@ MonoBehaviour:
   projectileSocket: {fileID: 1673031512578606}
   secondsBetweenShots: 2
   variationInSec: 0.2
+--- !u!114 &7587840882504809139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1350606544456152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf162298bae016b458a6cdfc017eeb28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealthPoints: 100
+  deathVanishSeconds: 2
+  healthBar: {fileID: 0}
+  deathSFX: []
+  getHitSFX: []
 --- !u!1 &1352237930390696
 GameObject:
   m_ObjectHideFlags: 0

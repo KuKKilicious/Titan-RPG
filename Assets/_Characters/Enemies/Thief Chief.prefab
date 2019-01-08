@@ -1520,9 +1520,9 @@ GameObject:
   - component: {fileID: 95878218790620664}
   - component: {fileID: 54071329766986896}
   - component: {fileID: 136648817505167904}
-  - component: {fileID: 114902992728780440}
   - component: {fileID: 195153772207447864}
   - component: {fileID: 114607494737687374}
+  - component: {fileID: 203052996491201083}
   m_Layer: 10
   m_Name: Thief Chief
   m_TagString: Untagged
@@ -1599,26 +1599,6 @@ CapsuleCollider:
   m_Height: 1.6
   m_Direction: 1
   m_Center: {x: 0, y: 0.8, z: 0}
---- !u!114 &114902992728780440
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1667877537309122}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce7a80d520cacc042b5fe14f373d8173, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MovingTurnSpeed: 360
-  m_StationaryTurnSpeed: 180
-  m_JumpPower: 6
-  m_GravityMultiplier: 2
-  m_RunCycleLegOffset: 0.2
-  m_MoveSpeedMultiplier: 1.5
-  m_AnimSpeedMultiplier: 1
-  m_GroundCheckDistance: 0.3
 --- !u!195 &195153772207447864
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1653,7 +1633,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a47feb78b1a13640ae73fc680230778, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealthPoints: 1000
   aggroRadius: 12.05
   attackRadius: 2.35
   damagePerShot: 100
@@ -1662,6 +1641,23 @@ MonoBehaviour:
   projectileSocket: {fileID: 1842864992386386}
   secondsBetweenShots: 2
   variationInSec: 0.2
+--- !u!114 &203052996491201083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1667877537309122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf162298bae016b458a6cdfc017eeb28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealthPoints: 100
+  deathVanishSeconds: 2
+  healthBar: {fileID: 0}
+  deathSFX: []
+  getHitSFX: []
 --- !u!1 &1668630536775020
 GameObject:
   m_ObjectHideFlags: 0

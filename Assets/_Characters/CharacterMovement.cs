@@ -119,7 +119,7 @@ namespace RPG.Characters
 
                 // we preserve the existing y part of the current velocity.
                 v.y = my_Rigidbody.velocity.y;
-                my_Rigidbody.velocity = v;
+                my_Rigidbody.velocity = v; 
             }
         }
 

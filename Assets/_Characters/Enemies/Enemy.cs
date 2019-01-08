@@ -5,9 +5,8 @@ using RPG.Core;
 
 namespace RPG.Characters
 {
-    public class Enemy : MonoBehaviour, IDamageable
+    public class Enemy : MonoBehaviour
     {
-        [SerializeField] float maxHealthPoints = 100f;
         [SerializeField] float aggroRadius = 7;
         [SerializeField] float attackRadius = 3;
         [SerializeField] float damagePerShot = 7;
@@ -19,11 +18,9 @@ namespace RPG.Characters
         [SerializeField] float variationInSec= 0.2f;
         bool isAttacking = false;
         Player player;
-        float currentHealthPoints;
 
         private void Start()
         {
-            currentHealthPoints = maxHealthPoints;
             player = FindObjectOfType<Player>();
         }
 
@@ -34,11 +31,7 @@ namespace RPG.Characters
 
         private void CheckForPlayerInRange()
         {
-            if (player.healthAsPercentage <= Mathf.Epsilon)
-            {
-                StopAllCoroutines();
-                Destroy(this);
-            }
+            
             float distanceToPlayer = Vector3.Distance(player.AimTransform.position, transform.position);
             if ((distanceToPlayer < attackRadius) && !isAttacking)
             {
@@ -96,19 +89,7 @@ namespace RPG.Characters
             return variation;
         }
 
-        void IDamageable.SubstractHealth(float damage)
-        {
-            currentHealthPoints = Mathf.Clamp(currentHealthPoints - damage, 0f, maxHealthPoints);
-            if (currentHealthPoints <= 0)
-            {
-                Destroy(gameObject);
-            }
-
-        }
-
-        public float healthAsPercentage {
-            get { return currentHealthPoints / maxHealthPoints; }
-        }
+  
 
         private void OnDrawGizmos()
         {

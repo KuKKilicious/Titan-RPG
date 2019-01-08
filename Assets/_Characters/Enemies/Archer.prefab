@@ -611,9 +611,9 @@ GameObject:
   - component: {fileID: 95698359641630504}
   - component: {fileID: 54482693694494768}
   - component: {fileID: 136461997980680700}
-  - component: {fileID: 114392393868164648}
   - component: {fileID: 195921383103897686}
   - component: {fileID: 114241057236895660}
+  - component: {fileID: 5239710343328542999}
   m_Layer: 10
   m_Name: Archer
   m_TagString: Untagged
@@ -689,26 +689,6 @@ CapsuleCollider:
   m_Height: 1.6
   m_Direction: 1
   m_Center: {x: 0, y: 0.8, z: 0}
---- !u!114 &114392393868164648
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1771998419595874}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce7a80d520cacc042b5fe14f373d8173, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MovingTurnSpeed: 360
-  m_StationaryTurnSpeed: 180
-  m_JumpPower: 6
-  m_GravityMultiplier: 2
-  m_RunCycleLegOffset: 0.2
-  m_MoveSpeedMultiplier: 1.5
-  m_AnimSpeedMultiplier: 1
-  m_GroundCheckDistance: 0.3
 --- !u!195 &195921383103897686
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -743,7 +723,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a47feb78b1a13640ae73fc680230778, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealthPoints: 100
   aggroRadius: 2
   attackRadius: 10
   damagePerShot: 10
@@ -752,6 +731,23 @@ MonoBehaviour:
   projectileSocket: {fileID: 1550257846628364}
   secondsBetweenShots: 0.5
   variationInSec: 0.2
+--- !u!114 &5239710343328542999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1771998419595874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf162298bae016b458a6cdfc017eeb28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealthPoints: 100
+  deathVanishSeconds: 2
+  healthBar: {fileID: 0}
+  deathSFX: []
+  getHitSFX: []
 --- !u!1 &1776970039663214
 GameObject:
   m_ObjectHideFlags: 0

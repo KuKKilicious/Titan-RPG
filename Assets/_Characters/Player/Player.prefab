@@ -790,6 +790,7 @@ GameObject:
   - component: {fileID: 114142734313485084}
   - component: {fileID: 114805184346887900}
   - component: {fileID: 114763984565784320}
+  - component: {fileID: 754225283}
   - component: {fileID: 82541410384330488}
   m_Layer: 12
   m_Name: Player
@@ -902,6 +903,7 @@ MonoBehaviour:
   moveSpeedMultiplier: 1
   movingTurnSpeed: 1600
   stationaryTurnSpeed: 800
+  animatorSpeed: 1
 --- !u!114 &114805184346887900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -914,27 +916,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0fc84815ead8074c9fcfde929ded308, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathSFX:
-  - {fileID: 8300000, guid: adb4cf45862b91945a1bc4ef2ac84ff2, type: 3}
-  - {fileID: 8300000, guid: 680ed7d77a7e6ca478b3d5dceb57c665, type: 3}
-  getHitSFX:
-  - {fileID: 8300000, guid: e0e4ee6f3e5ab804f900b4eb9438bb16, type: 3}
-  - {fileID: 8300000, guid: d03cb854194d8b948a9eff6065ea9728, type: 3}
-  - {fileID: 8300000, guid: e32ceafbe67c43646b3474d50a888d81, type: 3}
-  - {fileID: 8300000, guid: b1fc381d5d876f046b26c9df42b7e3fe, type: 3}
-  - {fileID: 8300000, guid: 829dfe614e7bcf847ae519942fcb25dd, type: 3}
-  - {fileID: 8300000, guid: 541dbe29cb83c7946956d52732c7701f, type: 3}
-  maxHealthPoints: 1000
   baseDamage: 10
   criticalParticles: {fileID: 2937762322402283225}
   weaponConfigInUse: {fileID: 11400000, guid: 4fc951c15848f9246aa4be3d24787f9a, type: 2}
   animatorOverrideController: {fileID: 22100000, guid: dff02239ccecc1f40893520ba0936af2,
     type: 2}
   aimTransform: {fileID: 4268316117527854}
-  abilities:
-  - {fileID: 11400000, guid: e1a8d288d818bd8448412c99304ce4ee, type: 2}
-  - {fileID: 11400000, guid: bfed98f0e4327f14f866d8a88622c5ca, type: 2}
-  - {fileID: 11400000, guid: 6b68f78b725658c4792ecd41c12ae6d9, type: 2}
   criticalHitChance: 0.1
   criticalHitMultiplier: 1.25
 --- !u!114 &114763984565784320
@@ -949,9 +936,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c25bf4ba5a291c4a817a918f17f8106, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  abilities: []
   energyBar: {fileID: 0}
   maxEnergy: 100
   regenPointsPerSecond: 2
+--- !u!114 &754225283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1305307095897422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf162298bae016b458a6cdfc017eeb28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealthPoints: 100
+  deathVanishSeconds: 2
+  healthBar: {fileID: 0}
+  deathSFX: []
+  getHitSFX: []
 --- !u!82 &82541410384330488
 AudioSource:
   m_ObjectHideFlags: 0

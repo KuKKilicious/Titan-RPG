@@ -9,10 +9,10 @@ namespace RPG.Characters
         
         public override void Use(AbilityUseParams abilityParams)
         {
-            IDamageable damageable = GetComponent<IDamageable>();
+            HealthSystem damageable = GetComponent<HealthSystem>();
             if (damageable!= null)
             {
-                damageable.SubstractHealth(-(config as SelfHealConfig).HealAmount);
+                damageable.HealCharacter((config as SelfHealConfig).HealAmount);
 
                 //Play VFX
                 PlayParticleEffect(gameObject);

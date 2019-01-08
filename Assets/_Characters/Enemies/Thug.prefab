@@ -1971,9 +1971,9 @@ GameObject:
   - component: {fileID: 95951470705108506}
   - component: {fileID: 54190114064576794}
   - component: {fileID: 136949286346716388}
-  - component: {fileID: 114424742950113534}
   - component: {fileID: 195711499837781516}
   - component: {fileID: 114350791968952228}
+  - component: {fileID: 2319458665279684917}
   m_Layer: 10
   m_Name: Thug
   m_TagString: Untagged
@@ -2050,26 +2050,6 @@ CapsuleCollider:
   m_Height: 1.6
   m_Direction: 1
   m_Center: {x: 0, y: 0.8, z: 0}
---- !u!114 &114424742950113534
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1738221719742202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce7a80d520cacc042b5fe14f373d8173, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MovingTurnSpeed: 360
-  m_StationaryTurnSpeed: 180
-  m_JumpPower: 6
-  m_GravityMultiplier: 2
-  m_RunCycleLegOffset: 0.2
-  m_MoveSpeedMultiplier: 1.5
-  m_AnimSpeedMultiplier: 1
-  m_GroundCheckDistance: 0.3
 --- !u!195 &195711499837781516
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2104,7 +2084,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a47feb78b1a13640ae73fc680230778, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealthPoints: 200
   aggroRadius: 12.05
   attackRadius: 2.35
   damagePerShot: 20
@@ -2113,6 +2092,23 @@ MonoBehaviour:
   projectileSocket: {fileID: 1672088518625692}
   secondsBetweenShots: 1
   variationInSec: 0.2
+--- !u!114 &2319458665279684917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1738221719742202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf162298bae016b458a6cdfc017eeb28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealthPoints: 100
+  deathVanishSeconds: 2
+  healthBar: {fileID: 0}
+  deathSFX: []
+  getHitSFX: []
 --- !u!1 &1760784097861058
 GameObject:
   m_ObjectHideFlags: 0
