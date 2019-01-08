@@ -4,16 +4,19 @@
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7829f5436cd62424c9dd4b7043e52f4c, type: 3}
-  m_Name: Sword
+  m_Name: Sword 1
   m_EditorClassIdentifier: 
   weaponPrefab: {fileID: 1256865524707520, guid: 31e11cdb4b141364ebe7296995028d49,
-    type: 2}
+    type: 3}
   gripTransform: {fileID: 4217617711921238, guid: 23966c2cda8135f448039bd9435121a9,
-    type: 2}
+    type: 3}
   attackAnimation: {fileID: 7400000, guid: d82669b37833c5f4db716b82428a5ad6, type: 3}
+  maxAttackRange: 3
+  additionalDamage: 5
   minTimeBetweenHits: 1.5

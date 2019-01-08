@@ -14,6 +14,7 @@ namespace RPG.Characters
     public class CharacterMovement : MonoBehaviour
     {
         const float FLOAT_ONE = 1f;
+        [SerializeField] private AnimatorOverrideController animatorOverrideController;
 
         [SerializeField] float stoppingDistance = 1f;
         [SerializeField] float moveSpeedMultiplier = 1f;
@@ -30,6 +31,13 @@ namespace RPG.Characters
         private float forwardAmount;
         private Vector3 groundNormal;
         private bool canMove = true;
+
+        public AnimatorOverrideController AnimatorOverrideController {
+            get {
+                return animatorOverrideController;
+            }
+
+        }
 
         private void Start()
         {

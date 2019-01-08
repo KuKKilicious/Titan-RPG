@@ -6,7 +6,7 @@ namespace RPG.Characters
 {
     public class WeaponPickupPoint : MonoBehaviour
     {
-        [SerializeField] Weapon weaponConfig;
+        [SerializeField] WeaponConfig weaponConfig;
         [SerializeField] AudioClip pickupSFX;
 
         AudioSource audioSource;
@@ -31,7 +31,7 @@ namespace RPG.Characters
             Player player = other.GetComponent<Player>();
             if (player)
             {
-                player.PutWeaponInHand(weaponConfig);
+                player.GetComponent<WeaponSystem>().PutWeaponInHand(weaponConfig);
                 audioSource.PlayOneShot(pickupSFX);
             }
         }
