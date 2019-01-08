@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.SceneManagement;
 using RPG.CameraUI;
-using RPG.Core;
 
 namespace RPG.Characters
 {
     [RequireComponent(typeof(HealthSystem))]
+    [RequireComponent(typeof(CharacterMovement))]
     public class Player : MonoBehaviour
     {
         //trigger consts
@@ -37,10 +35,12 @@ namespace RPG.Characters
 
         private CameraRaycaster cameraRaycaster;
         private Animator animator = null;
-        private Enemy enemy = null;
+        private GameObject enemyObject = null;
         private GameObject weaponObject;
         private HealthSystem healthSystem;
         private SpecialAbilities specialAbilities;
+        private CharacterMovement characterMovement;
+
         #region Getter
 
 
@@ -62,8 +62,12 @@ namespace RPG.Characters
             SetAttackAnimation();
 
         }
+        private void SetupRaycaster()
+        {
+           
 
-
+        }
+   
 
         #region Initialize Methods
 
@@ -72,11 +76,9 @@ namespace RPG.Characters
             animator = GetComponent<Animator>();
             healthSystem = GetComponent<HealthSystem>();
             specialAbilities = GetComponent<SpecialAbilities>();
+            characterMovement = GetComponent<CharacterMovement>();
         }
   
-
-
-     
 
         private void SetAttackAnimation()
         {
@@ -85,8 +87,9 @@ namespace RPG.Characters
         }
         private void RegisterForMouseClick()
         {
-            cameraRaycaster = FindObjectOfType<CameraRaycaster>();
+            cameraRaycaster = Camera.main.GetComponent<CameraRaycaster>();
             cameraRaycaster.notifyMouseOverEnemy += CameraRaycaster_notifyMouseOverEnemy;
+            cameraRaycaster.notifyMouseOverWalkableObservers += CameraRaycaster_notifyMouseOverWalkableObservers;
 
         }
         #endregion
@@ -104,20 +107,34 @@ namespace RPG.Characters
             for (int keyIndex = 1; keyIndex <= specialAbilities.GetNumberOfAbilities(); keyIndex++)
                 if (Input.GetKeyDown(keyIndex.ToString()))
                 {
-                    specialAbilities.AttemptSpecialAbility(keyIndex);
+                    specialAbilities.AttemptSpecialAbility(keyIndex,enemyObject);
                 }
+        }
+
+        //subscriber method
+        private void CameraRaycaster_notifyMouseOverWalkableObservers(Vector3 destination)
+        {
+            if (!healthSystem.IsAlive) { return; }
+            if (Input.GetMouseButton(0))
+            {
+                characterMovement.SetDestination(destination);
+            }
         }
 
         private void CameraRaycaster_notifyMouseOverEnemy(Enemy newEnemy)
         {
-            enemy = newEnemy;
+
+            if (!healthSystem.IsAlive) { return; }
+
+            enemyObject = newEnemy.gameObject;
             if (Input.GetMouseButton(0))
             {
-                HandleAttack(enemy);
+                characterMovement.SetDestination(enemyObject.transform.position);
+                HandleAttack(newEnemy);
             }
             else if (Input.GetMouseButtonDown(1)) //TODO inRange criteria
             {
-                specialAbilities.AttemptSpecialAbility(0);
+                specialAbilities.AttemptSpecialAbility(0,enemyObject);
             }
         }
 

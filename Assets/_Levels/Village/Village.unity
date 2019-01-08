@@ -9611,32 +9611,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114763984565784320, guid: ee2f44dabb7986c44b693bae1b959950,
         type: 3}
-      propertyPath: abilities.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 114763984565784320, guid: ee2f44dabb7986c44b693bae1b959950,
-        type: 3}
       propertyPath: energyBar
       value: 
       objectReference: {fileID: 1075311357}
-    - target: {fileID: 114763984565784320, guid: ee2f44dabb7986c44b693bae1b959950,
-        type: 3}
-      propertyPath: abilities.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: e1a8d288d818bd8448412c99304ce4ee,
-        type: 2}
-    - target: {fileID: 114763984565784320, guid: ee2f44dabb7986c44b693bae1b959950,
-        type: 3}
-      propertyPath: abilities.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: bfed98f0e4327f14f866d8a88622c5ca,
-        type: 2}
-    - target: {fileID: 114763984565784320, guid: ee2f44dabb7986c44b693bae1b959950,
-        type: 3}
-      propertyPath: abilities.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: 6b68f78b725658c4792ecd41c12ae6d9,
-        type: 2}
     - target: {fileID: 754225283, guid: ee2f44dabb7986c44b693bae1b959950, type: 3}
       propertyPath: healthBar
       value: 

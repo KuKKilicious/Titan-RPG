@@ -6,9 +6,11 @@ using RPG.CameraUI;
 
 namespace RPG.Characters
 {
+    [SelectionBase]
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(NavMeshAgent))]
     [RequireComponent(typeof(Animator))]
+    [RequireComponent(typeof(CapsuleCollider))]
     public class CharacterMovement : MonoBehaviour
     {
         const float FLOAT_ONE = 1f;
@@ -27,7 +29,6 @@ namespace RPG.Characters
         private float turnAmount;
         private float forwardAmount;
         private Vector3 groundNormal;
-        private Vector3 clickPoint;
         private bool canMove = true;
 
         private void Start()
@@ -42,15 +43,9 @@ namespace RPG.Characters
             SetupNavMeshAgent();
             SetupAnimator();
             SetupRigidBody();
-            SetupRaycaster();
         }
 
-        private void SetupRaycaster()
-        {
-            CameraRaycaster cameraRaycaster = Camera.main.GetComponent<CameraRaycaster>();
-            cameraRaycaster.notifyMouseOverEnemy += CameraRaycaster_notifyMouseOverEnemy; ;
-            cameraRaycaster.notifyMouseOverWalkableObservers += CameraRaycaster_notifyMouseOverWalkableObservers;
-        }
+
 
         private void SetupAnimator()
         {
@@ -73,18 +68,16 @@ namespace RPG.Characters
         }
         #endregion
 
-        private void CameraRaycaster_notifyMouseOverEnemy(Enemy enemy)
+        public void SetDestination(Vector3 position)
         {
-            if (!canMove) { return; }
-            if (Input.GetMouseButton(0))
+            if (canMove)
             {
-                agent.SetDestination(enemy.transform.position);
+                agent.SetDestination(position);
             }
-
         }
         private void Update()
         {
-            if (agent.remainingDistance > agent.stoppingDistance)
+            if (agent.remainingDistance > agent.stoppingDistance && canMove)
             {
                 Move(agent.desiredVelocity);
             }
@@ -93,19 +86,12 @@ namespace RPG.Characters
                 Move(Vector3.zero);
             }
         }
-        //subscriber method
-        private void CameraRaycaster_notifyMouseOverWalkableObservers(Vector3 destination)
-        {
-            if (!canMove) { return; }
-            if (Input.GetMouseButton(0))
-            {
-                agent.SetDestination(destination);
-            }
-        }
+
 
 
         public void StopMovement()
         {
+            agent.isStopped = true ;
             canMove = false;
         }
 

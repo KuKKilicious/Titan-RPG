@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 namespace RPG.Characters
 {
-
+    [RequireComponent(typeof(AudioSource))]
     public class HealthSystem : MonoBehaviour
     {
         const string DEATH_TRIGGER = "Death";
@@ -82,8 +82,7 @@ namespace RPG.Characters
 
         private IEnumerator KillCharacter()
         {
-            StopAllCoroutines();
-            int waitTime = 3;
+            float waitTime = 3f;
             //restrict Movement
             RestrictMovement();
             //trigger death animation
@@ -97,7 +96,7 @@ namespace RPG.Characters
                 //Slow time
                 Time.timeScale = timeScaleSloMo;
                 //wait a bit
-                yield return new WaitForSecondsRealtime(waitTime);
+                yield return new WaitForSeconds(waitTime);
                 //reload scene
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
                 Time.timeScale = 1f;

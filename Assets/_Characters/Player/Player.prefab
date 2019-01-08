@@ -881,7 +881,7 @@ NavMeshAgent:
   m_AngularSpeed: 120
   m_StoppingDistance: 1.5
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 0
@@ -936,10 +936,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c25bf4ba5a291c4a817a918f17f8106, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilities: []
+  abilities:
+  - {fileID: 11400000, guid: e1a8d288d818bd8448412c99304ce4ee, type: 2}
+  - {fileID: 11400000, guid: bfed98f0e4327f14f866d8a88622c5ca, type: 2}
+  - {fileID: 11400000, guid: 6b68f78b725658c4792ecd41c12ae6d9, type: 2}
   energyBar: {fileID: 0}
   maxEnergy: 100
   regenPointsPerSecond: 2
+  outOfEnergySound: {fileID: 8300000, guid: 328bc243d093f734bb330f081b246feb, type: 3}
 --- !u!114 &754225283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -955,8 +959,15 @@ MonoBehaviour:
   maxHealthPoints: 100
   deathVanishSeconds: 2
   healthBar: {fileID: 0}
-  deathSFX: []
-  getHitSFX: []
+  deathSFX:
+  - {fileID: 8300000, guid: adb4cf45862b91945a1bc4ef2ac84ff2, type: 3}
+  - {fileID: 8300000, guid: 680ed7d77a7e6ca478b3d5dceb57c665, type: 3}
+  getHitSFX:
+  - {fileID: 8300000, guid: d03cb854194d8b948a9eff6065ea9728, type: 3}
+  - {fileID: 8300000, guid: e32ceafbe67c43646b3474d50a888d81, type: 3}
+  - {fileID: 8300000, guid: b1fc381d5d876f046b26c9df42b7e3fe, type: 3}
+  - {fileID: 8300000, guid: 829dfe614e7bcf847ae519942fcb25dd, type: 3}
+  - {fileID: 8300000, guid: 541dbe29cb83c7946956d52732c7701f, type: 3}
 --- !u!82 &82541410384330488
 AudioSource:
   m_ObjectHideFlags: 0

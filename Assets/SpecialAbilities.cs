@@ -10,6 +10,7 @@ namespace RPG.Characters
         [SerializeField] Image energyBar;
         [SerializeField] private float maxEnergy = 100f;
         [SerializeField] private float regenPointsPerSecond = 1;
+        [SerializeField] private AudioClip outOfEnergySound;
         //ToDO EnergySounds
         float currentEnergy;
         AudioSource audioSource;
@@ -64,7 +65,7 @@ namespace RPG.Characters
             return abilities.Length;
         }
 
-        internal  void AttemptSpecialAbility(int index)
+        internal  void AttemptSpecialAbility(int index, GameObject target = null)
         {
             if (index >= abilities.Length) { return; }
 
@@ -75,9 +76,14 @@ namespace RPG.Characters
                 //check in range
                 UpdateEnergy(energyCost);
                 //Use ability
-                Debug.Log("using ability: " + index);
-                //var abilityParams = new AbilityUseParams(enemy, baseDamage);
-                //  ability.Use(abilityParams);
+                ability.Use(target);
+            }
+            else
+            {
+                if (!audioSource.isPlaying)
+                {
+                    audioSource.PlayOneShot(outOfEnergySound);
+                }
             }
             //else {maybe play outofenergysound}
         }
