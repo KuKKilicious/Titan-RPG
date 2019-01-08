@@ -11,22 +11,22 @@ namespace RPG.Characters
     {
         GameObject effectParticleSystem;
 
-        public override void Use(AbilityUseParams useParams)
+        public override void Use(GameObject target)
         {
-            DealSphericalDamageAroundTarget(useParams);
+            DealSphericalDamageAroundTarget(target);
             PlayAbilitySound();
         }
 
-        private void DealSphericalDamageAroundTarget(AbilityUseParams useParams)
+        private void DealSphericalDamageAroundTarget(GameObject target)
         {
             //play Particles
-            PlayParticleEffect(useParams.target.GetGameObject());
-            Collider[] hits = Physics.OverlapSphere(useParams.target.GetGameObject().transform.position, (config as AreaEffectConfig).Radius);
+            PlayParticleEffect(target);
+            Collider[] hits = Physics.OverlapSphere(target.transform.position, (config as AreaEffectConfig).Radius);
 
-            float damageToDeal = useParams.baseDamage + (config as AreaEffectConfig).DamageToEachTarget;//move into loop, if considering enemy based adjustment
+            float damageToDeal = (config as AreaEffectConfig).DamageToEachTarget;//move into loop, if considering enemy based adjustment
             foreach (Collider hit in hits)
             {
-                var damageable = hit.gameObject.GetComponent<IDamageable>();
+                var damageable = hit.gameObject.GetComponent<HealthSystem>();
                 if (damageable != null && hit.gameObject != gameObject)
                 {
                     damageable.SubstractHealth(damageToDeal);

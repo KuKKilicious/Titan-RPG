@@ -7,7 +7,7 @@ namespace RPG.Characters
     public class SelfHealBehaviour :AbilityBehaviour
     {
         
-        public override void Use(AbilityUseParams abilityParams)
+        public override void Use(GameObject target)
         {
             HealthSystem damageable = GetComponent<HealthSystem>();
             if (damageable!= null)
@@ -18,7 +18,6 @@ namespace RPG.Characters
                 PlayParticleEffect(gameObject);
                 //play random SFX
                 PlayAbilitySound();
-                //audioPlayer.PlaySound(config.SFX);
             }
         }
  

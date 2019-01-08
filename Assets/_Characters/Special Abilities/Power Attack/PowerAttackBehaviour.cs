@@ -7,11 +7,15 @@ namespace RPG.Characters
     public class PowerAttackBehaviour : AbilityBehaviour
     {
 
-        public override void Use(AbilityUseParams useParams)
+        public override void Use(GameObject target)
         {
-            float damageToDeal = useParams.baseDamage + (config as PowerAttackConfig).ExtraDamage;
-            useParams.target.SubstractHealth(damageToDeal);
-            PlayAbilitySound();
+            float damageToDeal = (config as PowerAttackConfig).ExtraDamage;
+            HealthSystem healthSystem = target.GetComponent<HealthSystem>();
+            if (healthSystem)
+            {
+                healthSystem.SubstractHealth(damageToDeal);
+                PlayAbilitySound();
+            }
         }
     }
 }
