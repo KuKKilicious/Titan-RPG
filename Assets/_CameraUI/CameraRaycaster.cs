@@ -22,7 +22,7 @@ namespace RPG.CameraUI
         public delegate void OnMouseOverWalkable(Vector3 destination); // declare new delegate type
         public event OnMouseOverWalkable notifyMouseOverWalkableObservers; // instantiate an observer set
         // OnMouseOverEnemy(Enemy enemy)
-        public delegate void OnMouseOverEnemy(Enemy enemy); // declare new delegate type
+        public delegate void OnMouseOverEnemy(EnemyAI enemy); // declare new delegate type
         public event OnMouseOverEnemy notifyMouseOverEnemy; // instantiate an observer set
 
         void Update()
@@ -57,7 +57,7 @@ namespace RPG.CameraUI
             if (hitInfo.collider == null) { return false; }
             var gameObjectHit = hitInfo.collider.gameObject;
             if (!gameObjectHit) { return false; }
-            Enemy enemy = gameObjectHit.GetComponent<Enemy>();
+            EnemyAI enemy = gameObjectHit.GetComponent<EnemyAI>();
             if (enemy)
             {
                 Cursor.SetCursor(enemyCursor, cursorHotspot, CursorMode.Auto);

@@ -92,7 +92,7 @@ namespace RPG.Characters
             }
         }
 
-        private void CameraRaycaster_notifyMouseOverEnemy(Enemy newEnemy)
+        private void CameraRaycaster_notifyMouseOverEnemy(EnemyAI newEnemy)
         {
 
             if (!healthSystem.IsAlive) { return; }

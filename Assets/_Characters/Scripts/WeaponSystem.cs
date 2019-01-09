@@ -33,7 +33,10 @@ namespace RPG.Characters
             PutWeaponInHand(weaponConfigInUse);
             SetAttackAnimation();
         }
-
+        public WeaponConfig GetWeaponConfig()
+        {
+            return weaponConfigInUse;
+        }
         public void HandleAttack(GameObject target)
         {
             if (TargetIsInRange(target))
