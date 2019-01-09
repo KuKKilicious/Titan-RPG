@@ -12,34 +12,47 @@ namespace RPG.Characters
 
         //todo remove
         [SerializeField] float chaseRadius = 7;
-
+        [SerializeField] WaypointContainer patrolPath;
+        [SerializeField] float waypointTolerance = 2f;
+        [SerializeField] float waitTimeBetweenAttacks = 3f;
 
         float currentWeaponRange = 3;
         float distanceToPlayer = 0f;
         enum State { idle, attacking, patrolling, chasing }
         State state = State.idle;
         bool isAttacking = false;
+        int nextWaypointIndex;
         Player player;
         CharacterMovement characterMovement;
+        WeaponSystem weaponSystem;
 
         private void Start()
         {
             player = FindObjectOfType<Player>();
             characterMovement = GetComponent<CharacterMovement>();
+            weaponSystem = GetComponent<WeaponSystem>();
         }
 
         private void Update()
         {
-            WeaponSystem weaponSystem = GetComponent<WeaponSystem>();
+            weaponSystem = GetComponent<WeaponSystem>();
             currentWeaponRange = weaponSystem.GetWeaponConfig().MaxAttackRange;
 
-             distanceToPlayer = Vector3.Distance(player.AimTransform.position, transform.position);
+            distanceToPlayer = Vector3.Distance(player.AimTransform.position, transform.position);
 
             if (distanceToPlayer > chaseRadius && state != State.patrolling)
             {
                 //stop 
                 StopAllCoroutines();
-                //start patrolling
+                if (patrolPath != null)
+                {
+                    //start patrolling
+                    StartCoroutine(Patrol());
+                }
+                else
+                {
+                    //start idling 
+                }
             }
             if (distanceToPlayer <= chaseRadius && state != State.chasing)
             {
@@ -52,20 +65,49 @@ namespace RPG.Characters
                 //stop
                 StopAllCoroutines();
                 //attack the player
+                weaponSystem.StartAttackTargetRepeatedlyCoroutine(player.gameObject);
+                state = State.attacking;
+            }
+        }
+
+
+
+        private IEnumerator Patrol()
+        {
+            state = State.patrolling;
+            yield return new WaitForFixedUpdate();
+            while (true)
+            {
+                //work out where to go next
+                Vector3 nextWaypointPos = patrolPath.transform.GetChild(nextWaypointIndex).position;
+                //tell characterMovement to go there
+                characterMovement.SetDestination(nextWaypointPos);
+                //cycle waypoint when close
+                CycleWayPointWhenClose(nextWaypointPos);
+                //wait at waypoint
+                yield return new WaitForSeconds(1f);
+            }
+        }
+
+        private void CycleWayPointWhenClose(Vector3 nextWaypointPos)
+        {
+            if (Vector3.Distance(transform.position, nextWaypointPos) <= waypointTolerance)
+            {
+                nextWaypointIndex = (nextWaypointIndex + 1) % patrolPath.transform.childCount;
             }
         }
 
         private IEnumerator ChasePlayer()
         {
             state = State.chasing;
-            while (distanceToPlayer >=currentWeaponRange)
+            while (distanceToPlayer >= currentWeaponRange)
             {
                 characterMovement.SetDestination(player.transform.position);
                 yield return new WaitForFixedUpdate();
             }
         }
 
-       
+
 
         //TODO seperate out Character firing logic
         //private IEnumerator SpawnProjectile()

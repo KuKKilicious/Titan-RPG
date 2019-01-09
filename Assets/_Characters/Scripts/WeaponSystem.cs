@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 namespace RPG.Characters
@@ -24,6 +23,7 @@ namespace RPG.Characters
 
         float lastHitTime = 0f;
         private GameObject weaponObject;
+        private GameObject target;
         private Animator animator = null;
 
         // Start is called before the first frame update
@@ -39,24 +39,72 @@ namespace RPG.Characters
         }
         public void HandleAttack(GameObject target)
         {
-            if (TargetIsInRange(target))
+            this.target = target;
+            bool targetStillAlive = target.GetComponent<HealthSystem>().healthAsPercentage >= Mathf.Epsilon;
+            if (TargetIsInRange(target) && targetStillAlive)
             {
                 if (Time.time - lastHitTime >= weaponConfigInUse.MinTimeBetweenHits)
                 {
-                    SetAttackAnimation();
-                    PlayAttackAnimation();
-                    DealDamageToTarget(target);
+                    AttackTarget();
                 }
             }
 
         }
 
-
-        // Update is called once per frame
-        void Update()
+        public void StartAttackTargetRepeatedlyCoroutine(GameObject targetToAttack)
+        {
+            target = targetToAttack;
+            StartCoroutine(AttackTargetRepeatedly());
+        }
+        private IEnumerator AttackTargetRepeatedly()
         {
 
+            //determine if alive (attacker and defender)
+            bool attackerStillAlive = GetComponent<HealthSystem>().healthAsPercentage >= Mathf.Epsilon;
+            bool targetStillAlive = target.GetComponent<HealthSystem>().healthAsPercentage >= Mathf.Epsilon;
+            //while still alive
+            if (attackerStillAlive && targetStillAlive)
+            {
+                //know how often to attack
+                float weaponHitPeriod = weaponConfigInUse.MinTimeBetweenHits;
+                float timetoWait = weaponHitPeriod * animator.speed;
+                bool isTimeToHitAgain = Time.time - lastHitTime > timetoWait;
+
+                //if time to hit again
+                if (isTimeToHitAgain)
+                {
+                    //hit target
+                    AttackTargetOnce();
+                    lastHitTime = Time.time;
+                }
+                yield return new WaitForSeconds(timetoWait);
+            }
+
         }
+
+        private void AttackTargetOnce()
+        {
+            AttackTarget();
+        }
+
+        private void AttackTarget()
+        {
+            transform.LookAt(target.transform);
+
+            SetAttackAnimation();
+            PlayAttackAnimation();
+            //DealDamageToTarget(target); //todo delay damage taken
+            StartCoroutine(DealDamageAfterDelay(.5f)); // todo read from weaponconfiginUse
+        }
+
+        private IEnumerator DealDamageAfterDelay(float v)
+        {
+            lastHitTime = Time.time;
+            yield return new WaitForSeconds(v);
+            float damage = CalculateDamage();
+            target.GetComponent<HealthSystem>().SubstractHealth(damage);
+        }
+
         private void SetAttackAnimation()
         {
             var animatorOverrideController = GetComponent<CharacterMovement>().AnimatorOverrideController;
@@ -79,7 +127,10 @@ namespace RPG.Characters
             if (Random.value <= criticalHitChance)
             {
                 damage *= criticalHitMultiplier;
-                criticalParticles.Play();
+                if (criticalParticles != null)
+                {
+                    criticalParticles.Play();
+                }
             }
             return damage;
         }
@@ -93,14 +144,13 @@ namespace RPG.Characters
         }
         private void PlayAttackAnimation()
         {
-            animator.SetTrigger(ATTACK_TRIGGER); //make const
+            animator.SetTrigger(ATTACK_TRIGGER);
         }
         private void DealDamageToTarget(GameObject target)
         {
             float damage = CalculateDamage();
             target.GetComponent<HealthSystem>().SubstractHealth(damage);
             lastHitTime = Time.time;
-
         }
 
         private bool TargetIsInRange(GameObject target)

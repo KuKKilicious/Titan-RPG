@@ -9,17 +9,27 @@ namespace RPG.Characters
 
     public class AreaEffectBehaviour : AbilityBehaviour
     {
+        
         GameObject effectParticleSystem;
 
         public override void Use(GameObject target)
         {
-            DealSphericalDamageAroundTarget(target);
+            StartCoroutine(DealSphericalDamageAroundTarget(target,(config as AreaEffectConfig).AnimationDelay));
             PlayAbilitySound();
+            PlayAbilityAnimation();
         }
 
-        private void DealSphericalDamageAroundTarget(GameObject target)
+        private IEnumerator DealSphericalDamageAroundTarget(GameObject target,float delay)
         {
+            transform.LookAt(target.transform);
+            //StopMoving
+            CharacterMovement characterMovement = GetComponent<CharacterMovement>();
+            if (characterMovement)
+            {
+                characterMovement.DisableMovement();
+            }
             //play Particles
+            yield return new WaitForSeconds(delay);
             PlayParticleEffect(target);
             Collider[] hits = Physics.OverlapSphere(target.transform.position, (config as AreaEffectConfig).Radius);
 
@@ -32,6 +42,10 @@ namespace RPG.Characters
                     damageable.SubstractHealth(damageToDeal);
                    
                 }
+            }
+            if (characterMovement)
+            {
+                characterMovement.EnableMovement();
             }
         }
     }

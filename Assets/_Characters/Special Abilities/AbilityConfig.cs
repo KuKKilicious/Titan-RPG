@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using RPG.Core;
 
 namespace RPG.Characters
 {
@@ -8,16 +7,13 @@ namespace RPG.Characters
     public abstract class AbilityConfig : ScriptableObject
     {
         [Header("Special Ability General")]
-        [SerializeField]
-        float energyCost = 10f;
-        [SerializeField]
-        GameObject particlePrefab = null;
-        [SerializeField]
-        bool targetsSelf = false;
-        protected AbilityBehaviour behaviour;
-        [SerializeField]
-        private AudioClip[] sfx = new AudioClip[0];
+        [SerializeField] float energyCost = 10f;
+        [SerializeField] GameObject particlePrefab = null;
+        [SerializeField] bool targetsSelf = false;
+        [SerializeField] private AudioClip[] sfx = new AudioClip[0];
+        [SerializeField] private AnimationClip abilityAnimation;
 
+        protected AbilityBehaviour behaviour;
 
         #region Getter
         public AudioClip GetRandomSfx()
@@ -47,10 +43,17 @@ namespace RPG.Characters
                 return targetsSelf;
             }
         }
+
+        public AnimationClip AbilityAnimation {
+            get {
+                return abilityAnimation;
+            }
+
+        }
         #endregion
 
         public abstract AbilityBehaviour GetBehaviourComponent(GameObject gameObjectToAttachTo);
-        
+
         public void Use(GameObject target)
         {
             behaviour.Use(target);
@@ -62,6 +65,8 @@ namespace RPG.Characters
             behaviourComponent.SetConfig = this;
             behaviour = behaviourComponent;
         }
+
+
     }
 
 }

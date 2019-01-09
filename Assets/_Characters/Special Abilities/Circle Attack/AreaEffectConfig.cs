@@ -8,8 +8,8 @@ namespace RPG.Characters
     public class AreaEffectConfig : AbilityConfig
     {
         [Header("Area Effect Specific")]
-        [SerializeField]
-        float radius = 1f;
+        [SerializeField]float radius = 1f;
+        [SerializeField]float animationDelay= 0.5f;
         float damageToEachTarget = 10f;
 
         public float Radius {
@@ -22,6 +22,12 @@ namespace RPG.Characters
         public float DamageToEachTarget {
             get {
                 return damageToEachTarget;
+            }
+        }
+
+        public float AnimationDelay {
+            get {
+                return animationDelay;
             }
         }
 

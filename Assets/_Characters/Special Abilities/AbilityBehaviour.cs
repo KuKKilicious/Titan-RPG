@@ -4,6 +4,8 @@ namespace RPG.Characters
 {
     public abstract class AbilityBehaviour : MonoBehaviour
     {
+        const string ATTACK_TRIGGER = "Attack";
+        const string DEFAULT_ATTACK_STATE= "DEFAULT_ATTACK";
         GameObject particleObject;
         protected AbilityConfig config;
         const float PARTICLE_CLEAN_UP_DELAY = 20f;
@@ -26,7 +28,6 @@ namespace RPG.Characters
             //Instantiate a particle system prefab attached to gameObject
             particleObject =
                 Instantiate(config.ParticlePrefab, target.transform.position, config.ParticlePrefab.transform.rotation);
-            particleObject.transform.parent = transform;
             //Get the particle System
             ParticleSystem particles = particleObject.GetComponent<ParticleSystem>();
             //Play particle system
@@ -50,6 +51,15 @@ namespace RPG.Characters
             {
                 audioSource.PlayOneShot(abilitySound);
             }
+        }
+
+        protected void PlayAbilityAnimation()
+        {
+            AnimatorOverrideController animatorOverrideController = GetComponent<CharacterMovement>().AnimatorOverrideController;
+            var animator = GetComponent<Animator>();
+            animator.runtimeAnimatorController = animatorOverrideController;
+            animatorOverrideController[DEFAULT_ATTACK_STATE] = config.AbilityAnimation;
+            animator.SetTrigger(ATTACK_TRIGGER);
         }
     }
 }

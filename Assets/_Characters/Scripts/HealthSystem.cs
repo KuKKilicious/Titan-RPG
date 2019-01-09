@@ -110,7 +110,7 @@ namespace RPG.Characters
 
         private void RestrictMovement()
         {
-            characterMovement.StopMovement();
+            characterMovement.DisableMovement();
         }
         public void HealCharacter(float amount)
         {

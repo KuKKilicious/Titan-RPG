@@ -15,4 +15,6 @@ MonoBehaviour:
   energyCost: 22
   particlePrefab: {fileID: 0}
   targetsSelf: 0
+  sfx: []
+  abilityAnimation: {fileID: 7400000, guid: 91784112ca001e74bbc86bbbe8199e56, type: 3}
   extraDamage: 0

@@ -97,10 +97,15 @@ namespace RPG.Characters
 
 
 
-        public void StopMovement()
+        public void DisableMovement()
         {
             agent.isStopped = true ;
             canMove = false;
+        }
+        public void EnableMovement()//todo remove canMove and use !agent.isStopped
+        {
+            agent.isStopped = false;
+            canMove = true;
         }
 
         private void OnAnimatorMove()
