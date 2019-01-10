@@ -8,6 +8,7 @@ namespace RPG.Characters
     {
         [Header("Special Ability General")]
         [SerializeField] float energyCost = 10f;
+        [SerializeField] float castRange = 10f;
         [SerializeField] GameObject particlePrefab = null;
         [SerializeField] bool targetsSelf = false;
         [SerializeField] private AudioClip[] sfx = new AudioClip[0];
@@ -49,6 +50,12 @@ namespace RPG.Characters
                 return abilityAnimation;
             }
 
+        }
+
+        public float CastRange {
+            get {
+                return castRange;
+            }
         }
         #endregion
 

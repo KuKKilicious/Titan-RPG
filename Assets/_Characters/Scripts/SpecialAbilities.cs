@@ -74,6 +74,8 @@ namespace RPG.Characters
             if (isEnergyAvailable(energyCost))
             {
                 //check in range
+
+                //todo in range vs out of range behaviour
                 UpdateEnergy(energyCost);
                 //Use ability
                 ability.Use(target);
@@ -86,6 +88,17 @@ namespace RPG.Characters
                 }
             }
             //else {maybe play outofenergysound}
+        }
+
+        internal bool TargetIsInSpellRange(int keyIndex, GameObject enemyObject)
+        {
+            if (keyIndex >= abilities.Length) { Debug.Break();Debug.LogError("requesting index out of range for abilities in:" + gameObject); }
+
+            if (abilities[keyIndex].TargetsSelf) { return true; }else
+            {
+                return (Vector3.Distance(enemyObject.transform.position, transform.position) - abilities[keyIndex].CastRange) <= 0f;
+            }
+
         }
     }
 }

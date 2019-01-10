@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Assertions;
 using RPG.CameraUI;
+using System.Collections;
 
 namespace RPG.Characters
 {
@@ -10,14 +11,13 @@ namespace RPG.Characters
     public class Player : MonoBehaviour
     {
         //trigger consts
- 
+
         [Header("Properties")]
 
         //position to aim at
         [SerializeField] Transform aimTransform;
 
-        private CameraRaycaster cameraRaycaster;
-        private GameObject enemyObject = null;
+        private GameObject enemyObject = null; //todo needed?
         private HealthSystem healthSystem;
         private SpecialAbilities specialAbilities;
         private CharacterMovement characterMovement;
@@ -31,7 +31,7 @@ namespace RPG.Characters
             }
         }
 
-   
+
         #endregion
 
         // Use this for initialization
@@ -39,10 +39,10 @@ namespace RPG.Characters
         {
             GetComponents();
             RegisterForMouseClick();
-            
+
 
         }
-   
+
 
         #region Initialize Methods
 
@@ -53,12 +53,12 @@ namespace RPG.Characters
             characterMovement = GetComponent<CharacterMovement>();
             weaponSystem = GetComponent<WeaponSystem>();
         }
-  
+
 
 
         private void RegisterForMouseClick()
         {
-            cameraRaycaster = Camera.main.GetComponent<CameraRaycaster>();
+            CameraRaycaster cameraRaycaster = Camera.main.GetComponent<CameraRaycaster>();
             cameraRaycaster.notifyMouseOverEnemy += CameraRaycaster_notifyMouseOverEnemy;
             cameraRaycaster.notifyMouseOverWalkableObservers += CameraRaycaster_notifyMouseOverWalkableObservers;
 
@@ -78,7 +78,7 @@ namespace RPG.Characters
             for (int keyIndex = 1; keyIndex <= specialAbilities.GetNumberOfAbilities(); keyIndex++)
                 if (Input.GetKeyDown(keyIndex.ToString()))
                 {
-                    specialAbilities.AttemptSpecialAbility(keyIndex,enemyObject);
+                    StartCoroutine(MoveCloserToTargetAndCastSpell(keyIndex));
                 }
         }
 
@@ -88,10 +88,48 @@ namespace RPG.Characters
             if (!healthSystem.IsAlive) { return; }
             if (Input.GetMouseButton(0))
             {
+                StopAllCoroutines();
                 characterMovement.SetDestination(destination);
             }
         }
 
+        private IEnumerator MoveCloserToTargetAndAttack()
+        {
+            bool targetStillAliveAndNotInRange = !TargetIsInRange(enemyObject) && (enemyObject.GetComponent<HealthSystem>().healthAsPercentage >= Mathf.Epsilon);
+
+            while (targetStillAliveAndNotInRange)
+            {
+
+                characterMovement.SetDestination(enemyObject.transform.position);
+                yield return new WaitForSecondsRealtime(0.1f);
+                targetStillAliveAndNotInRange = !TargetIsInRange(enemyObject) && (enemyObject.GetComponent<HealthSystem>().healthAsPercentage >= Mathf.Epsilon);
+            }
+            characterMovement.SetDestination(transform.position);
+
+            weaponSystem.HandleAttack(enemyObject);
+
+        }
+
+        private IEnumerator MoveCloserToTargetAndCastSpell(int keyIndex)
+        {
+            bool targetStillAliveAndNotInRange = !specialAbilities.TargetIsInSpellRange(keyIndex,enemyObject) && (enemyObject.GetComponent<HealthSystem>().healthAsPercentage >= Mathf.Epsilon);
+
+            while (targetStillAliveAndNotInRange)
+            {
+
+                characterMovement.SetDestination(enemyObject.transform.position);
+                yield return new WaitForSecondsRealtime(0.1f);
+                targetStillAliveAndNotInRange = !TargetIsInRange(enemyObject) && (enemyObject.GetComponent<HealthSystem>().healthAsPercentage >= Mathf.Epsilon);
+            }
+            characterMovement.SetDestination(transform.position);
+
+            specialAbilities.AttemptSpecialAbility(keyIndex, enemyObject);
+
+        }
+        private bool TargetIsInRange(GameObject target)
+        {
+            return (Vector3.Distance(transform.position, target.transform.position) <= weaponSystem.GetWeaponConfig().MaxAttackRange);
+        }
         private void CameraRaycaster_notifyMouseOverEnemy(EnemyAI newEnemy)
         {
 
@@ -100,14 +138,13 @@ namespace RPG.Characters
             enemyObject = newEnemy.gameObject;
             if (Input.GetMouseButton(0))
             {
-                characterMovement.SetDestination(enemyObject.transform.position);
-                weaponSystem.HandleAttack(newEnemy.gameObject);
+                StartCoroutine(MoveCloserToTargetAndAttack());
             }
-            else if (Input.GetMouseButtonDown(1)) //TODO inRange criteria
+            else if (Input.GetMouseButtonDown(1))
             {
-                specialAbilities.AttemptSpecialAbility(0,enemyObject);
+                StartCoroutine(MoveCloserToTargetAndCastSpell(0));
             }
         }
-    
+
     }
 }

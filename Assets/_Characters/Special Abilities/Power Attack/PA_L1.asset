@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: PA_L1
   m_EditorClassIdentifier: 
   energyCost: 22
-  particlePrefab: {fileID: 0}
+  castRange: 10
+  particlePrefab: {fileID: 1082210140108818, guid: 3e9477b6d81e89d45962d9ceed38b10b,
+    type: 3}
   targetsSelf: 0
   sfx: []
   abilityAnimation: {fileID: 7400000, guid: 91784112ca001e74bbc86bbbe8199e56, type: 3}

@@ -1600,7 +1600,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3488cfbbffa49741812e986d968d159, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animatorOverrideController: {fileID: 0}
+  animatorOverrideController: {fileID: 22100000, guid: 7c4603e9e477bd149bfa9eaac0b021d3,
+    type: 2}
   stoppingDistance: 1
   moveSpeedMultiplier: 1
   movingTurnSpeed: 360

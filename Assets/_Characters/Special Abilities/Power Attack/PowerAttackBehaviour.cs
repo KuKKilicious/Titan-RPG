@@ -13,6 +13,9 @@ namespace RPG.Characters
             HealthSystem healthSystem = target.GetComponent<HealthSystem>();
             if (healthSystem)
             {
+                transform.LookAt(target.transform);
+                PlayParticleEffect(target);
+                PlayAbilityAnimation();
                 healthSystem.SubstractHealth(damageToDeal);
                 PlayAbilitySound();
             }
