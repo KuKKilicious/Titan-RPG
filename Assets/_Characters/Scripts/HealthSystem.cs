@@ -87,12 +87,12 @@ namespace RPG.Characters
             RestrictMovement();
             //trigger death animation
             animator.SetTrigger(DEATH_TRIGGER);
+            PlayRandomSFX(deathSFX);
             var playerComponent = GetComponent<Player>();
             if (playerComponent && playerComponent.isActiveAndEnabled)
             {
                 float timeScaleSloMo = 0.6f;
                 //play death sound //TODO consider giving specific clips to player && Enemy
-                PlayRandomSFX(deathSFX);
                 //Slow time
                 Time.timeScale = timeScaleSloMo;
                 //wait a bit
@@ -119,10 +119,10 @@ namespace RPG.Characters
 
         private void PlayRandomSFX(AudioClip[] sfx)
         {
-            if (sfx.Length>0)
+            if (sfx.Length > 0)
             {
-            int randomIndex = Random.Range(0, sfx.Length);
-            audioSource.PlayOneShot(sfx[randomIndex]);
+                int randomIndex = Random.Range(0, sfx.Length);
+                audioSource.PlayOneShot(sfx[randomIndex]);
             }
         }
         private void ReduceHealth(float damage)

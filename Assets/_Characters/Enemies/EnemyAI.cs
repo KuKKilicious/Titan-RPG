@@ -20,7 +20,6 @@ namespace RPG.Characters
         float distanceToPlayer = 0f;
         enum State { idle, attacking, patrolling, chasing }
         State state = State.idle;
-        bool isAttacking = false;
         int nextWaypointIndex;
         Vector3 spawnPos;
         Player player;

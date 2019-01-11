@@ -21,6 +21,7 @@ namespace RPG.Characters
         [SerializeField] float movingTurnSpeed = 360;
         [SerializeField] float stationaryTurnSpeed = 180;
         [SerializeField] float animatorSpeed = 1f;
+        [SerializeField][Range(0.1f,1f)] float forwardAnimatorCap = 1f;
 
         Rigidbody my_Rigidbody;
         NavMeshAgent agent;
@@ -148,8 +149,8 @@ namespace RPG.Characters
 
         void UpdateAnimator()
         {
-            animator.SetFloat("Forward", forwardAmount, 0.1f, Time.deltaTime);
-            animator.SetFloat("Turn", turnAmount, 0.1f, Time.deltaTime);
+            animator.SetFloat("Forward", forwardAmount *forwardAnimatorCap , 0.1f, Time.deltaTime);
+            animator.SetFloat("Turn", turnAmount * forwardAnimatorCap, 0.1f, Time.deltaTime);
             animator.speed = animatorSpeed;
         }
 

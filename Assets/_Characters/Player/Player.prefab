@@ -907,6 +907,7 @@ MonoBehaviour:
   movingTurnSpeed: 1600
   stationaryTurnSpeed: 800
   animatorSpeed: 1
+  forwardAnimatorCap: 1
 --- !u!114 &114805184346887900
 MonoBehaviour:
   m_ObjectHideFlags: 0

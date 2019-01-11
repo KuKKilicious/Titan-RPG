@@ -83,7 +83,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 1
+  m_Speed: 1.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -129,7 +129,8 @@ MonoBehaviour:
   moveSpeedMultiplier: 0.1
   movingTurnSpeed: 360
   stationaryTurnSpeed: 180
-  animatorSpeed: 0.5
+  animatorSpeed: 0.6
+  forwardAnimatorCap: 0.5
 --- !u!82 &8728338055122281493
 AudioSource:
   m_ObjectHideFlags: 0

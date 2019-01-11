@@ -42,9 +42,11 @@ namespace RPG.Characters
         {
             this.target = target;
             bool targetStillAlive = target.GetComponent<HealthSystem>().healthAsPercentage >= Mathf.Epsilon;
+
             if (TargetIsInRange(target) && targetStillAlive)
             {
-                if (Time.time - lastHitTime >= weaponConfigInUse.MinTimeBetweenHits)
+
+                if (timeToHit())
                 {
                     AttackTarget();
                 }
@@ -66,15 +68,13 @@ namespace RPG.Characters
             bool attackerStillAlive = GetComponent<HealthSystem>().healthAsPercentage >= Mathf.Epsilon;
             bool targetStillAlive = target.GetComponent<HealthSystem>().healthAsPercentage >= Mathf.Epsilon;
             //while still alive
-            if (attackerStillAlive && targetStillAlive)
+            while (attackerStillAlive && targetStillAlive)
             {
-                //know how often to attack
-                float weaponHitPeriod = weaponConfigInUse.MinTimeBetweenHits;
-                float timetoWait = weaponHitPeriod * animator.speed;
-                bool isTimeToHitAgain = Time.time - lastHitTime > timetoWait;
 
+                float weaponHitPeriod = weaponConfigInUse.AttackAnimation.length + weaponConfigInUse.MinTimeBetweenHits;
+                float timetoWait = weaponHitPeriod * animator.speed;
                 //if time to hit again
-                if (isTimeToHitAgain)
+                if (timeToHit() && TargetIsInRange(target))
                 {
                     //hit target
                     AttackTargetOnce();
@@ -83,6 +83,13 @@ namespace RPG.Characters
                 yield return new WaitForSeconds(timetoWait);
             }
 
+        }
+        bool timeToHit()
+        {
+            float weaponHitPeriod = weaponConfigInUse.AttackAnimation.length + weaponConfigInUse.MinTimeBetweenHits;
+            float timetoWait = weaponHitPeriod * animator.speed;
+            bool isTimeToHitAgain = Time.time - lastHitTime > timetoWait;
+            return isTimeToHitAgain;
         }
 
         private void AttackTargetOnce()
