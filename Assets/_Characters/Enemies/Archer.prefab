@@ -534,8 +534,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1946e1c1bae1c34ba2666ebb3463952, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyCanvasPrefab: {fileID: 1311539807392560, guid: 9a9d70d10b9331d469e57254147e0430,
-    type: 3}
 --- !u!1 &1677995271938598
 GameObject:
   m_ObjectHideFlags: 0
@@ -612,7 +610,6 @@ GameObject:
   - component: {fileID: 54482693694494768}
   - component: {fileID: 136461997980680700}
   - component: {fileID: 195921383103897686}
-  - component: {fileID: 114241057236895660}
   - component: {fileID: 5239710343328542999}
   m_Layer: 10
   m_Name: Archer
@@ -711,26 +708,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &114241057236895660
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1771998419595874}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a47feb78b1a13640ae73fc680230778, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  aggroRadius: 2
-  attackRadius: 10
-  damagePerShot: 10
-  projectileToUse: {fileID: 1520325623144814, guid: 17262f251f08ffa478acf33cddc4f75b,
-    type: 3}
-  projectileSocket: {fileID: 1550257846628364}
-  secondsBetweenShots: 0.5
-  variationInSec: 0.2
 --- !u!114 &5239710343328542999
 MonoBehaviour:
   m_ObjectHideFlags: 0

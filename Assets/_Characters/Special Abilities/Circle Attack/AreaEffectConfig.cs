@@ -10,7 +10,7 @@ namespace RPG.Characters
         [Header("Area Effect Specific")]
         [SerializeField]float radius = 1f;
         [SerializeField]float animationDelay= 0.5f;
-        float damageToEachTarget = 10f;
+        [SerializeField] float damageToEachTarget = 10f;
 
         public float Radius {
             get {

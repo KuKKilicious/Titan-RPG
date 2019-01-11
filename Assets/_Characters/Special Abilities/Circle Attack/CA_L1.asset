@@ -21,3 +21,4 @@ MonoBehaviour:
   abilityAnimation: {fileID: 7400000, guid: fd2eda3550a6f1344866db46a225eea7, type: 3}
   radius: 5
   animationDelay: 0.5
+  damageToEachTarget: 25

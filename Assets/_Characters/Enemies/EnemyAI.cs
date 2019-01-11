@@ -9,7 +9,7 @@ namespace RPG.Characters
     [RequireComponent(typeof(WeaponSystem))]
     public class EnemyAI : MonoBehaviour
     {
-
+        const float waitTimeToReturn =3f;
         //todo remove
         [SerializeField] float chaseRadius = 7;
         [SerializeField] WaypointContainer patrolPath;
@@ -22,6 +22,7 @@ namespace RPG.Characters
         State state = State.idle;
         bool isAttacking = false;
         int nextWaypointIndex;
+        Vector3 spawnPos;
         Player player;
         CharacterMovement characterMovement;
         WeaponSystem weaponSystem;
@@ -31,6 +32,7 @@ namespace RPG.Characters
             player = FindObjectOfType<Player>();
             characterMovement = GetComponent<CharacterMovement>();
             weaponSystem = GetComponent<WeaponSystem>();
+            spawnPos = transform.position;
         }
 
         private void Update()
@@ -40,27 +42,35 @@ namespace RPG.Characters
 
             distanceToPlayer = Vector3.Distance(player.AimTransform.position, transform.position);
 
-            if (distanceToPlayer > chaseRadius && state != State.patrolling)
+            bool inWeaponCircle = distanceToPlayer <= currentWeaponRange;
+            bool inChaseCircle = distanceToPlayer > currentWeaponRange && distanceToPlayer <= chaseRadius;
+            bool outsideChaseCircle = distanceToPlayer > chaseRadius;
+
+
+            if (outsideChaseCircle)
             {
                 //stop 
-                StopAllCoroutines();
-                if (patrolPath != null)
+                if (patrolPath != null && state != State.patrolling)
                 {
+                StopAllCoroutines();
                     //start patrolling
                     StartCoroutine(Patrol());
                 }
-                else
+                else if(state !=State.idle)
                 {
+                StopAllCoroutines();
                     //start idling 
+                    state = State.idle;
+                    StartCoroutine(ReturnToOriginAfterDelay(waitTimeToReturn));
                 }
             }
-            if (distanceToPlayer <= chaseRadius && state != State.chasing)
+            if (inChaseCircle && state != State.chasing)
             {
                 StopAllCoroutines();
                 //chase player
                 StartCoroutine(ChasePlayer());
             }
-            if (distanceToPlayer <= currentWeaponRange && state != State.attacking)
+            if (inWeaponCircle && state != State.attacking)
             {
                 //stop
                 StopAllCoroutines();
@@ -70,7 +80,12 @@ namespace RPG.Characters
             }
         }
 
+        private IEnumerator ReturnToOriginAfterDelay(float waitTimeToReturn)
+        {
+            yield return new WaitForSecondsRealtime(waitTimeToReturn);
 
+            characterMovement.SetDestination(spawnPos);
+        }
 
         private IEnumerator Patrol()
         {

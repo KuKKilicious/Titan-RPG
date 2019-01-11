@@ -64,7 +64,11 @@ namespace RPG.Characters
         //clear assetpack predefined animations
         private void RemoveAnimationEvents()
         {
+            if (attackAnimation)
+            {
             attackAnimation.events = new AnimationEvent[0];
+
+            }
         }
     }
 }

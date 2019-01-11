@@ -4,6 +4,7 @@ using UnityEngine.Assertions;
 namespace RPG.Characters
 {
     [RequireComponent(typeof(Animator))]
+    [RequireComponent(typeof(HealthSystem))]
     public class WeaponSystem : MonoBehaviour
     {
         //consts
@@ -51,7 +52,7 @@ namespace RPG.Characters
 
         }
 
-      
+
 
         public void StartAttackTargetRepeatedlyCoroutine(GameObject targetToAttack)
         {
@@ -118,9 +119,12 @@ namespace RPG.Characters
             weaponConfigInUse = weaponConfig;
             GameObject dominantHand = RequestDominantHand();
             Destroy(weaponObject); //empty hand
-            weaponObject = Instantiate(weaponConfigInUse.WeaponPrefab, transform.position, Quaternion.identity, dominantHand.transform);
-            weaponObject.transform.localPosition = weaponConfigInUse.GripTransform.localPosition;
-            weaponObject.transform.localRotation = weaponConfigInUse.GripTransform.localRotation;
+            if (weaponConfigInUse.WeaponPrefab)
+            {
+                weaponObject = Instantiate(weaponConfigInUse.WeaponPrefab, transform.position, Quaternion.identity, dominantHand.transform);
+                weaponObject.transform.localPosition = weaponConfigInUse.GripTransform.localPosition;
+                weaponObject.transform.localRotation = weaponConfigInUse.GripTransform.localRotation;
+            }
         }
         private float CalculateDamage()
         {
