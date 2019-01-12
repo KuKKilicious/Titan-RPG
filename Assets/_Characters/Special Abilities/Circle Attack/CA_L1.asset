@@ -17,7 +17,8 @@ MonoBehaviour:
   particlePrefab: {fileID: 1018161031997718, guid: 436bf5f569a78844584946abb828e7e8,
     type: 3}
   targetsSelf: 0
-  sfx: []
+  sfx:
+  - {fileID: 8300000, guid: 893bb29fe4faeff4eb4d50d66f802ffc, type: 3}
   abilityAnimation: {fileID: 7400000, guid: fd2eda3550a6f1344866db46a225eea7, type: 3}
   radius: 5
   animationDelay: 0.5

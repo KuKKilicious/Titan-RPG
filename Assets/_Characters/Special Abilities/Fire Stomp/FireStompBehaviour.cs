@@ -7,15 +7,15 @@ using System;
 namespace RPG.Characters
 {
 
-    public class AreaEffectBehaviour : AbilityBehaviour
+    public class FireStompBehaviour : AbilityBehaviour
     {
         
         GameObject effectParticleSystem;
 
         public override void Use(GameObject target)
         {
-            StartCoroutine(DealSphericalDamageAroundTarget(target,(config as AreaEffectConfig).AnimationDelay));
-            StartCoroutine(PlayAbilitySoundWithAnimation((config as AreaEffectConfig).AnimationDelay));
+            StartCoroutine(DealSphericalDamageAroundTarget(target,(config as FireStompConfig).AnimationDelay));
+            StartCoroutine(PlayAbilitySoundWithAnimation((config as FireStompConfig).AnimationDelay));
             PlayAbilityAnimation();
         }
 
@@ -27,7 +27,6 @@ namespace RPG.Characters
 
         private IEnumerator DealSphericalDamageAroundTarget(GameObject target,float delay)
         {
-            transform.LookAt(target.transform);
             //StopMoving
             CharacterMovement characterMovement = GetComponent<CharacterMovement>();
             if (characterMovement)
@@ -36,10 +35,10 @@ namespace RPG.Characters
             }
             //play Particles
             yield return new WaitForSeconds(delay);
-            PlayParticleEffect(target);
-            Collider[] hits = Physics.OverlapSphere(target.transform.position, (config as AreaEffectConfig).Radius);
+            PlayParticleEffect(gameObject);
+            Collider[] hits = Physics.OverlapSphere(transform.position, (config as FireStompConfig).Radius);
 
-            float damageToDeal = (config as AreaEffectConfig).DamageToEachTarget;//move into loop, if considering enemy based adjustment
+            float damageToDeal = (config as FireStompConfig).DamageToEachTarget;//move into loop, if considering enemy based adjustment
             foreach (Collider hit in hits)
             {
                 var damageable = hit.gameObject.GetComponent<HealthSystem>();

@@ -15,6 +15,7 @@ namespace RPG.Characters
         [SerializeField]float maxAttackRange = 3f;
         [SerializeField]float additionalDamage = 5f;
         [SerializeField]float damageDelay= 0.5f;
+        [SerializeField] AudioClip[] sfx;
 
         [SerializeField] private float minTimeBetweenHits=0f;
 
@@ -60,6 +61,13 @@ namespace RPG.Characters
             get {
                 return damageDelay;
             }
+        }
+
+        public AudioClip[] Sfx {
+            get {
+                return sfx;
+            }
+
         }
         #endregion
 

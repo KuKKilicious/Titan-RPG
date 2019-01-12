@@ -21,7 +21,7 @@ namespace RPG.Characters
         [SerializeField] float movingTurnSpeed = 360;
         [SerializeField] float stationaryTurnSpeed = 180;
         [SerializeField] float animatorSpeed = 1f;
-        [SerializeField][Range(0.1f,1f)] float forwardAnimatorCap = 1f;
+        [SerializeField][Range(0.1f,1f)] float movementAnimatorCap = 1f;
 
         Rigidbody my_Rigidbody;
         NavMeshAgent agent;
@@ -33,6 +33,9 @@ namespace RPG.Characters
         private Vector3 groundNormal;
         private bool canMove = true;
 
+        float originalAnimatorSpeed;
+        float originalSpeed;
+
         public AnimatorOverrideController AnimatorOverrideController {
             get {
                 return animatorOverrideController;
@@ -40,10 +43,25 @@ namespace RPG.Characters
 
         }
 
+        public float MovementAnimatorCap {
+            set {
+                movementAnimatorCap = value;
+            }
+            get {
+                return movementAnimatorCap;
+            }
+        }
+
         private void Start()
         {
-
             SetupComponents();
+            RememberOriginalValues();
+        }
+
+        private void RememberOriginalValues()
+        {
+            originalAnimatorSpeed = animatorSpeed;
+            originalSpeed = agent.speed;
         }
 
         #region Setup
@@ -123,6 +141,21 @@ namespace RPG.Characters
             }
         }
 
+        internal void EnableWalk(bool v)
+        {
+            if (v)
+            {
+                movementAnimatorCap = .5f;
+                agent.speed = originalSpeed / 2;
+                animator.speed = originalAnimatorSpeed / 2;
+            }
+            else
+            {
+                movementAnimatorCap = 1f;
+                agent.speed = originalSpeed;
+                animator.speed = originalAnimatorSpeed;
+            }
+        }
 
         public void Move(Vector3 movement)
         {
@@ -149,8 +182,8 @@ namespace RPG.Characters
 
         void UpdateAnimator()
         {
-            animator.SetFloat("Forward", forwardAmount *forwardAnimatorCap , 0.1f, Time.deltaTime);
-            animator.SetFloat("Turn", turnAmount * forwardAnimatorCap, 0.1f, Time.deltaTime);
+            animator.SetFloat("Forward", forwardAmount *MovementAnimatorCap , 0.1f, Time.deltaTime);
+            animator.SetFloat("Turn", turnAmount * MovementAnimatorCap, 0.1f, Time.deltaTime);
             animator.speed = animatorSpeed;
         }
 

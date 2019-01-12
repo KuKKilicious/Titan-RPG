@@ -733,7 +733,7 @@ MonoBehaviour:
   movingTurnSpeed: 360
   stationaryTurnSpeed: 180
   animatorSpeed: 1
-  forwardAnimatorCap: 1
+  movementAnimatorCap: 1
 --- !u!82 &6592471076368647495
 AudioSource:
   m_ObjectHideFlags: 0
@@ -746,7 +746,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1204,7 +1204,7 @@ PrefabInstance:
     - target: {fileID: 224239719101366616, guid: 9a9d70d10b9331d469e57254147e0430,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5.031616
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224239719101366616, guid: 9a9d70d10b9331d469e57254147e0430,
         type: 3}
@@ -1249,12 +1249,12 @@ PrefabInstance:
     - target: {fileID: 224239719101366616, guid: 9a9d70d10b9331d469e57254147e0430,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -22.437332
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224239719101366616, guid: 9a9d70d10b9331d469e57254147e0430,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000000059604645
+      value: 2.18
       objectReference: {fileID: 0}
     - target: {fileID: 224239719101366616, guid: 9a9d70d10b9331d469e57254147e0430,
         type: 3}

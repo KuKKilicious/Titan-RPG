@@ -65,7 +65,7 @@ namespace RPG.Characters
                     //start patrolling
                     StartCoroutine(Patrol());
                 }
-                else if (state != State.idle)
+                else if (patrolPath == null &&state != State.idle)
                 {
                     StopBehaviour();
                     //start idling 
@@ -90,10 +90,13 @@ namespace RPG.Characters
             }
         }
 
+     
+
         private void StopBehaviour()
         {
             StopAllCoroutines();
             weaponSystem.StopAllCoroutines(); //consider moving Coroutine methods calls into this class
+            characterMovement.EnableWalk(false);
             characterMovement.SetDestination(transform.position); //stopping in place
         }
 
@@ -118,6 +121,7 @@ namespace RPG.Characters
                 CycleWayPointWhenClose(nextWaypointPos);
                 //wait at waypoint
                 yield return new WaitForSeconds(1f);
+                characterMovement.EnableWalk(true);
             }
         }
 

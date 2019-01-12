@@ -5,6 +5,7 @@ namespace RPG.Characters
 {
     [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(HealthSystem))]
+    [RequireComponent(typeof(AudioSource))]
     public class WeaponSystem : MonoBehaviour
     {
         //consts
@@ -26,6 +27,8 @@ namespace RPG.Characters
         private GameObject weaponObject;
         private GameObject target;
         private Animator animator = null;
+        bool attackerStillAlive;
+        bool targetStillAlive;
 
         // Start is called before the first frame update
         void Start()
@@ -43,7 +46,7 @@ namespace RPG.Characters
             this.target = target;
             bool targetStillAlive = target.GetComponent<HealthSystem>().healthAsPercentage >= Mathf.Epsilon;
 
-            if (TargetIsInRange(target,weaponConfigInUse) && targetStillAlive)
+            if (TargetIsInRange(target, weaponConfigInUse) && targetStillAlive)
             {
 
                 if (timeToHit(weaponConfigInUse))
@@ -56,7 +59,7 @@ namespace RPG.Characters
 
 
 
-        public void StartMeleeAttackRepeatedlyCoroutine(GameObject targetToAttack,WeaponConfig weapon)
+        public void StartMeleeAttackRepeatedlyCoroutine(GameObject targetToAttack, WeaponConfig weapon)
         {
             PutWeaponInHand(weapon);
             target = targetToAttack;
@@ -66,16 +69,16 @@ namespace RPG.Characters
         {
 
             //determine if alive (attacker and defender)
-            bool attackerStillAlive = GetComponent<HealthSystem>().healthAsPercentage >= Mathf.Epsilon;
-            bool targetStillAlive = target.GetComponent<HealthSystem>().healthAsPercentage >= Mathf.Epsilon;
             //while still alive
+            attackerStillAlive = GetComponent<HealthSystem>().healthAsPercentage >= Mathf.Epsilon;
+            targetStillAlive = target.GetComponent<HealthSystem>().healthAsPercentage >= Mathf.Epsilon;
             while (attackerStillAlive && targetStillAlive)
             {
 
                 float weaponHitPeriod = weapon.AttackAnimation.length + weapon.MinTimeBetweenHits;
                 float timetoWait = weaponHitPeriod * animator.speed;
                 //if time to hit again
-                if (timeToHit(weapon) && TargetIsInRange(target,weapon))
+                if (timeToHit(weapon) && TargetIsInRange(target, weapon))
                 {
                     //hit target
                     AttackTargetOnce(weapon);
@@ -86,7 +89,7 @@ namespace RPG.Characters
 
         }
 
-        internal void StartRangedAttackRepeatedlyCoroutine(WeaponConfig rangedWeapon,GameObject target)
+        internal void StartRangedAttackRepeatedlyCoroutine(WeaponConfig rangedWeapon, GameObject target)
         {
             PutWeaponInHand(rangedWeapon);
             this.target = target;
@@ -109,11 +112,24 @@ namespace RPG.Characters
             SetAttackAnimation(weapon);
             PlayAttackAnimation();
             //todo consider checking for range
-            StartCoroutine(DealDamageAfterDelay(weapon.DamageDelay)); // todo read from weaponconfiginUse
+            StartCoroutine(DealDamageAfterDelay(weapon.DamageDelay));
+            StartCoroutine(PlayRandomSFX(weapon.DamageDelay, weapon.Sfx));
         }
+
+        private IEnumerator PlayRandomSFX(float waitTime, AudioClip[] sfx)
+        {
+            yield return new WaitForSecondsRealtime(waitTime);
+            if (sfx.Length > 0)
+            {
+                int randomIndex = Random.Range(0, sfx.Length);
+                GetComponent<AudioSource>().PlayOneShot(sfx[randomIndex]);
+            }
+        }
+
 
         private IEnumerator DealDamageAfterDelay(float v)
         {
+
             lastHitTime = Time.time;
             yield return new WaitForSeconds(v);
             float damage = CalculateDamage();
