@@ -13,7 +13,7 @@ namespace RPG.Characters
 
 
         [Header("Criticals")]
-        [Range(.1f, 1f)] [SerializeField] float criticalHitChance = 0.1f;
+        [Range(0f, 1f)] [SerializeField] float criticalHitChance = 0.1f;
         [SerializeField] float criticalHitMultiplier = 1.25f;
         [SerializeField] ParticleSystem criticalParticles = null;
 
@@ -32,7 +32,7 @@ namespace RPG.Characters
         {
             animator = GetComponent<Animator>();
             PutWeaponInHand(weaponConfigInUse);
-            SetAttackAnimation();
+            SetAttackAnimation(weaponConfigInUse);
         }
         public WeaponConfig GetWeaponConfig()
         {
@@ -43,12 +43,12 @@ namespace RPG.Characters
             this.target = target;
             bool targetStillAlive = target.GetComponent<HealthSystem>().healthAsPercentage >= Mathf.Epsilon;
 
-            if (TargetIsInRange(target) && targetStillAlive)
+            if (TargetIsInRange(target,weaponConfigInUse) && targetStillAlive)
             {
 
-                if (timeToHit())
+                if (timeToHit(weaponConfigInUse))
                 {
-                    AttackTarget();
+                    AttackTargetOnce(weaponConfigInUse);
                 }
             }
 
@@ -56,12 +56,13 @@ namespace RPG.Characters
 
 
 
-        public void StartAttackTargetRepeatedlyCoroutine(GameObject targetToAttack)
+        public void StartMeleeAttackRepeatedlyCoroutine(GameObject targetToAttack,WeaponConfig weapon)
         {
+            PutWeaponInHand(weapon);
             target = targetToAttack;
-            StartCoroutine(AttackTargetRepeatedly());
+            StartCoroutine(AttackTargetRepeatedly(weaponConfigInUse));
         }
-        private IEnumerator AttackTargetRepeatedly()
+        private IEnumerator AttackTargetRepeatedly(WeaponConfig weapon)
         {
 
             //determine if alive (attacker and defender)
@@ -71,40 +72,44 @@ namespace RPG.Characters
             while (attackerStillAlive && targetStillAlive)
             {
 
-                float weaponHitPeriod = weaponConfigInUse.AttackAnimation.length + weaponConfigInUse.MinTimeBetweenHits;
+                float weaponHitPeriod = weapon.AttackAnimation.length + weapon.MinTimeBetweenHits;
                 float timetoWait = weaponHitPeriod * animator.speed;
                 //if time to hit again
-                if (timeToHit() && TargetIsInRange(target))
+                if (timeToHit(weapon) && TargetIsInRange(target,weapon))
                 {
                     //hit target
-                    AttackTargetOnce();
+                    AttackTargetOnce(weapon);
                     lastHitTime = Time.time;
                 }
                 yield return new WaitForSeconds(timetoWait);
             }
 
         }
-        bool timeToHit()
+
+        internal void StartRangedAttackRepeatedlyCoroutine(WeaponConfig rangedWeapon,GameObject target)
         {
-            float weaponHitPeriod = weaponConfigInUse.AttackAnimation.length + weaponConfigInUse.MinTimeBetweenHits;
+            PutWeaponInHand(rangedWeapon);
+            this.target = target;
+            StartCoroutine(AttackTargetRepeatedly(rangedWeapon));
+        }
+
+        bool timeToHit(WeaponConfig weapon)
+        {
+            float weaponHitPeriod = weapon.AttackAnimation.length + weapon.MinTimeBetweenHits;
             float timetoWait = weaponHitPeriod * animator.speed;
             bool isTimeToHitAgain = Time.time - lastHitTime > timetoWait;
             return isTimeToHitAgain;
         }
 
-        private void AttackTargetOnce()
-        {
-            AttackTarget();
-        }
 
-        private void AttackTarget()
+        private void AttackTargetOnce(WeaponConfig weapon)
         {
             transform.LookAt(target.transform);
 
-            SetAttackAnimation();
+            SetAttackAnimation(weapon);
             PlayAttackAnimation();
-            //DealDamageToTarget(target); //todo delay damage taken
-            StartCoroutine(DealDamageAfterDelay(.5f)); // todo read from weaponconfiginUse
+            //todo consider checking for range
+            StartCoroutine(DealDamageAfterDelay(weapon.DamageDelay)); // todo read from weaponconfiginUse
         }
 
         private IEnumerator DealDamageAfterDelay(float v)
@@ -115,11 +120,11 @@ namespace RPG.Characters
             target.GetComponent<HealthSystem>().SubstractHealth(damage);
         }
 
-        private void SetAttackAnimation()
+        private void SetAttackAnimation(WeaponConfig weapon)
         {
             var animatorOverrideController = GetComponent<CharacterMovement>().AnimatorOverrideController;
             animator.runtimeAnimatorController = animatorOverrideController;
-            animatorOverrideController[DEFAULT_ATTACK] = weaponConfigInUse.AttackAnimation;
+            animatorOverrideController[DEFAULT_ATTACK] = weapon.AttackAnimation;
         }
         internal void PutWeaponInHand(WeaponConfig weaponConfig)
         {
@@ -166,9 +171,9 @@ namespace RPG.Characters
             lastHitTime = Time.time;
         }
 
-        private bool TargetIsInRange(GameObject target)
+        private bool TargetIsInRange(GameObject target, WeaponConfig weapon)
         {
-            return (Vector3.Distance(transform.position, target.transform.position) <= weaponConfigInUse.MaxAttackRange);
+            return (Vector3.Distance(transform.position, target.transform.position) <= weapon.MaxAttackRange);
         }
 
 

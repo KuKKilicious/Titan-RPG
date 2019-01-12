@@ -9,18 +9,14 @@ namespace RPG.Characters
     [CreateAssetMenu(menuName = ("RPG/Weapon"))]
     public class WeaponConfig : ScriptableObject
     {
-        [SerializeField]
-        GameObject weaponPrefab;
-        [SerializeField]
-        Transform gripTransform;
-        [SerializeField]
-        AnimationClip attackAnimation;
-        [SerializeField]
-        float maxAttackRange = 3f;
-        [SerializeField]
-        float additionalDamage = 5f;
+        [SerializeField]GameObject weaponPrefab;
+        [SerializeField]Transform gripTransform;
+        [SerializeField]AnimationClip attackAnimation;
+        [SerializeField]float maxAttackRange = 3f;
+        [SerializeField]float additionalDamage = 5f;
+        [SerializeField]float damageDelay= 0.5f;
 
-        [SerializeField] private float minTimeBetweenHits;
+        [SerializeField] private float minTimeBetweenHits=0f;
 
         #region Getters
         public GameObject WeaponPrefab {
@@ -57,6 +53,12 @@ namespace RPG.Characters
         public float AdditionalDamage {
             get {
                 return additionalDamage;
+            }
+        }
+
+        public float DamageDelay {
+            get {
+                return damageDelay;
             }
         }
         #endregion

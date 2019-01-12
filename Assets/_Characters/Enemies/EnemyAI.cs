@@ -9,7 +9,7 @@ namespace RPG.Characters
     [RequireComponent(typeof(WeaponSystem))]
     public class EnemyAI : MonoBehaviour
     {
-        const float waitTimeToReturn =3f;
+        const float waitTimeToReturn = 3f;
         //todo remove
         [SerializeField] float chaseRadius = 7;
         [SerializeField] WaypointContainer patrolPath;
@@ -18,13 +18,15 @@ namespace RPG.Characters
 
         float currentWeaponRange = 3;
         float distanceToPlayer = 0f;
-        enum State { idle, attacking, patrolling, chasing }
+        enum State { idle, attacking, patrolling, chasing, rangedAttacking }
         State state = State.idle;
         int nextWaypointIndex;
         Vector3 spawnPos;
         Player player;
         CharacterMovement characterMovement;
         WeaponSystem weaponSystem;
+        RangedEnemy rangedEnemy; //nullable
+        WeaponConfig meleeWeapon;
 
         private void Start()
         {
@@ -32,12 +34,15 @@ namespace RPG.Characters
             characterMovement = GetComponent<CharacterMovement>();
             weaponSystem = GetComponent<WeaponSystem>();
             spawnPos = transform.position;
+
+            rangedEnemy = GetComponent<RangedEnemy>(); // nullable
+            weaponSystem = GetComponent<WeaponSystem>();
+            meleeWeapon = weaponSystem.GetWeaponConfig();
+            currentWeaponRange = meleeWeapon.MaxAttackRange;
         }
 
         private void Update()
         {
-            weaponSystem = GetComponent<WeaponSystem>();
-            currentWeaponRange = weaponSystem.GetWeaponConfig().MaxAttackRange;
 
             distanceToPlayer = Vector3.Distance(player.AimTransform.position, transform.position);
 
@@ -45,38 +50,51 @@ namespace RPG.Characters
             bool inChaseCircle = distanceToPlayer > currentWeaponRange && distanceToPlayer <= chaseRadius;
             bool outsideChaseCircle = distanceToPlayer > chaseRadius;
 
-
-            if (outsideChaseCircle)
+            if (InsideRangedCircle() && state != State.rangedAttacking)
             {
-                //stop 
+                StopBehaviour();
+                //start ranged attack
+                state = State.rangedAttacking;
+                weaponSystem.StartRangedAttackRepeatedlyCoroutine(rangedEnemy.RangedWeapon, player.gameObject);
+            }
+            else if (outsideChaseCircle && !InsideRangedCircle())
+            {
                 if (patrolPath != null && state != State.patrolling)
                 {
-                StopAllCoroutines();
+                    StopBehaviour();
                     //start patrolling
                     StartCoroutine(Patrol());
                 }
-                else if(state !=State.idle)
+                else if (state != State.idle)
                 {
-                StopAllCoroutines();
+                    StopBehaviour();
                     //start idling 
                     state = State.idle;
                     StartCoroutine(ReturnToOriginAfterDelay(waitTimeToReturn));
                 }
             }
-            if (inChaseCircle && state != State.chasing)
+            else if (inChaseCircle && state != State.chasing)
             {
-                StopAllCoroutines();
+                StopBehaviour();
                 //chase player
                 StartCoroutine(ChasePlayer());
             }
-            if (inWeaponCircle && state != State.attacking)
+            else if (inWeaponCircle && state != State.attacking)
             {
                 //stop
-                StopAllCoroutines();
+                StopBehaviour();
+
                 //attack the player
-                weaponSystem.StartAttackTargetRepeatedlyCoroutine(player.gameObject);
+                weaponSystem.StartMeleeAttackRepeatedlyCoroutine(player.gameObject,meleeWeapon);
                 state = State.attacking;
             }
+        }
+
+        private void StopBehaviour()
+        {
+            StopAllCoroutines();
+            weaponSystem.StopAllCoroutines(); //consider moving Coroutine methods calls into this class
+            characterMovement.SetDestination(transform.position); //stopping in place
         }
 
         private IEnumerator ReturnToOriginAfterDelay(float waitTimeToReturn)
@@ -121,41 +139,15 @@ namespace RPG.Characters
             }
         }
 
-
-
-        //TODO seperate out Character firing logic
-        //private IEnumerator SpawnProjectile()
-        //{
-
-
-        //    while (isAttacking)
-        //    {
-        //        float variation = GetRandomVariation();
-
-        //        var projectile = Instantiate(projectileToUse, projectileSocket.transform.position, Quaternion.identity);
-        //        projectile.transform.rotation =
-        //            Quaternion.LookRotation(player.AimTransform.position -
-        //                                    projectileSocket.transform.position); //rotate to player
-        //        Projectile projectileComponent = projectile.GetComponent<Projectile>();
-        //        projectileComponent.Shooter = gameObject;
-        //        projectileComponent.setDamage(damagePerShot);
-
-
-        //        Vector3 unitVectorToPlayer =
-        //            Vector3.Normalize(player.AimTransform.position - projectileSocket.transform.position);
-        //        float projectileSpeed = projectileComponent.ProjectileSpeed;
-        //        projectile.GetComponent<Rigidbody>().velocity = unitVectorToPlayer * projectileSpeed;
-        //        yield return new WaitForSeconds(variation);
-        //    }
-        //}
-
-        //private float GetRandomVariation()
-        //{
-        //    float variationMin = secondsBetweenShots + variationInSec;
-        //    float variationMax = secondsBetweenShots - variationInSec;
-        //    float variation = Random.Range(variationMin, variationMax);
-        //    return variation;
-        //}
+        private bool InsideRangedCircle()
+        {
+            if (rangedEnemy)
+            {
+                bool insideRangedCircle = distanceToPlayer <= rangedEnemy.WeaponRange && distanceToPlayer > chaseRadius;
+                return insideRangedCircle;
+            }
+            return false;
+        }
 
 
 
@@ -169,6 +161,12 @@ namespace RPG.Characters
             Gizmos.color = Color.red;
 
             Gizmos.DrawWireSphere(transform.position, currentWeaponRange); // attackRadius
+            if (rangedEnemy)
+            {
+                Gizmos.color = Color.blue;
+                Gizmos.DrawWireSphere(transform.position, rangedEnemy.WeaponRange); // attackRadius
+
+            }
         }
 
         public GameObject GetGameObject()

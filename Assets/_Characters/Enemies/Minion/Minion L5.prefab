@@ -65,7 +65,7 @@ Animator:
   m_GameObject: {fileID: 59083626846431792}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: e3a99f26c39bfe54dbf3a09dcac2a199, type: 3}
-  m_Controller: {fileID: 22100000, guid: 5025a05290fc52c478bb5839eeb8464d, type: 2}
+  m_Controller: {fileID: 9100000, guid: e2cf68ff4b1ffda45a77f7307dd789b9, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -124,12 +124,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3488cfbbffa49741812e986d968d159, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animatorOverrideController: {fileID: 0}
+  animatorOverrideController: {fileID: 22100000, guid: 5025a05290fc52c478bb5839eeb8464d,
+    type: 2}
   stoppingDistance: 1
   moveSpeedMultiplier: 1
   movingTurnSpeed: 360
   stationaryTurnSpeed: 180
   animatorSpeed: 1
+  forwardAnimatorCap: 1
 --- !u!114 &5323428069330937484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,7 +275,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealthPoints: 100
   deathVanishSeconds: 2
-  healthBar: {fileID: 0}
+  healthBar: {fileID: 8321970550970042657}
   deathSFX: []
   getHitSFX: []
 --- !u!114 &5369680382523187931
@@ -493,3 +495,15 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 6154588898827248572}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8321970550970042657 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2744075227246750365, guid: 9a9d70d10b9331d469e57254147e0430,
+    type: 3}
+  m_PrefabInstance: {fileID: 6154588898827248572}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
