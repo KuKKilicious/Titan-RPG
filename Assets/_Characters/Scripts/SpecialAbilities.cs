@@ -94,11 +94,19 @@ namespace RPG.Characters
         {
             if (keyIndex >= abilities.Length) { Debug.Break();Debug.LogError("requesting index out of range for abilities in:" + gameObject); }
 
-            if (abilities[keyIndex].TargetsSelf) { return true; }else
+            if (AbilitytargetsSelf(keyIndex)) { return true; }else
             {
+                if (!enemyObject) { return false; }
                 return (Vector3.Distance(enemyObject.transform.position, transform.position) - abilities[keyIndex].CastRange) <= 0f;
             }
 
+        }
+
+        public bool AbilitytargetsSelf(int keyIndex)
+        {
+            if (keyIndex >= abilities.Length) { Debug.Break(); Debug.LogError("requesting index out of range for abilities in:" + gameObject); }
+
+            return abilities[keyIndex].TargetsSelf;
         }
     }
 }

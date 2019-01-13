@@ -112,7 +112,13 @@ namespace RPG.Characters
 
         private IEnumerator MoveCloserToTargetAndCastSpell(int keyIndex)
         {
-            bool targetStillAliveAndNotInRange = !specialAbilities.TargetIsInSpellRange(keyIndex,enemyObject) && (enemyObject.GetComponent<HealthSystem>().healthAsPercentage >= Mathf.Epsilon);
+            if (!enemyObject && !specialAbilities.AbilitytargetsSelf(keyIndex)) { yield break; } //no enemy , but needs enemy target
+            bool targetStillAliveAndNotInRange = false;
+            if (!specialAbilities.AbilitytargetsSelf(keyIndex))
+            {
+
+                targetStillAliveAndNotInRange = !specialAbilities.TargetIsInSpellRange(keyIndex, enemyObject) && (enemyObject.GetComponent<HealthSystem>().healthAsPercentage >= Mathf.Epsilon);
+            }
 
             while (targetStillAliveAndNotInRange)
             {
@@ -122,7 +128,6 @@ namespace RPG.Characters
                 targetStillAliveAndNotInRange = !TargetIsInRange(enemyObject) && (enemyObject.GetComponent<HealthSystem>().healthAsPercentage >= Mathf.Epsilon);
             }
             characterMovement.SetDestination(transform.position);
-
             specialAbilities.AttemptSpecialAbility(keyIndex, enemyObject);
 
         }
