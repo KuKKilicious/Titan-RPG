@@ -15,6 +15,7 @@ namespace RPG.Characters
         [SerializeField] WaypointContainer patrolPath;
         [SerializeField] float waypointTolerance = 2f;
         [SerializeField] float waitTimeBetweenAttacks = 3f;
+        [SerializeField] float waitTimeBetweenPatrolling= 1f;
 
         float currentWeaponRange = 3;
         float distanceToPlayer = 0f;
@@ -120,7 +121,7 @@ namespace RPG.Characters
                 //cycle waypoint when close
                 CycleWayPointWhenClose(nextWaypointPos);
                 //wait at waypoint
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(waitTimeBetweenPatrolling);
                 characterMovement.EnableWalk(true);
             }
         }

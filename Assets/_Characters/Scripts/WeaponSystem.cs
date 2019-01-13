@@ -74,7 +74,6 @@ namespace RPG.Characters
             targetStillAlive = target.GetComponent<HealthSystem>().healthAsPercentage >= Mathf.Epsilon;
             while (attackerStillAlive && targetStillAlive)
             {
-
                 float weaponHitPeriod = weapon.AttackAnimation.length + weapon.MinTimeBetweenHits;
                 float timetoWait = weaponHitPeriod * animator.speed;
                 //if time to hit again
@@ -85,6 +84,8 @@ namespace RPG.Characters
                     lastHitTime = Time.time;
                 }
                 yield return new WaitForSeconds(timetoWait);
+                attackerStillAlive = GetComponent<HealthSystem>().healthAsPercentage >= Mathf.Epsilon;
+                targetStillAlive = target.GetComponent<HealthSystem>().healthAsPercentage >= Mathf.Epsilon;
             }
 
         }

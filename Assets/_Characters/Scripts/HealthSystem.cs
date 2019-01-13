@@ -2,6 +2,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
+using Random = UnityEngine.Random;
+
 namespace RPG.Characters
 {
     [RequireComponent(typeof(AudioSource))]
@@ -95,6 +98,7 @@ namespace RPG.Characters
                 //play death sound //TODO consider giving specific clips to player && Enemy
                 //Slow time
                 Time.timeScale = timeScaleSloMo;
+                PlayDeathScreen(waitTime);
                 //wait a bit
                 yield return new WaitForSeconds(waitTime);
                 //reload scene
@@ -106,6 +110,12 @@ namespace RPG.Characters
             {
                 Destroy(gameObject, deathVanishSeconds);
             }
+        }
+
+        private void PlayDeathScreen(float waitTime)
+        {
+            UIManager uiManager = GameObject.FindObjectOfType<UIManager>();
+            uiManager.PlayDeathScreen(); //consider including  waittime
         }
 
         private void RestrictMovement()
